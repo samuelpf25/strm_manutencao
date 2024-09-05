@@ -106,8 +106,7 @@ padrao = '<p style="font-family:Courier; color:Blue; font-size: 16px;">'
 infor = '<p style="font-family:Courier; color:Green; font-size: 14px;">'
 alerta = '<p style="font-family:Courier; color:Red; font-size: 17px;">'
 titulo = '<p style="font-family:Courier; color:Blue; font-size: 20px;">'
-cabecalho = '<div id="logo" class="span8 small"><h1>CONTROLE DE ORDENS DE SERVIÇO - UFT</h1></div>'
-
+cabecalho='<div id="logo" class="span8 small"><a title="Universidade Federal do Tocantins"><img src="https://www.uft.edu.br/static/media/LogoHeader.48fc918c.svg" alt="Universidade Federal do Tocantins"><span class="portal-title-1"></span><h1 class="portal-title corto">Universidade Federal do Tocantins</h1><span class="portal-description">COINFRA - ATIVIDADES</span></a></div>'
 
 # @st.cache
 # def carrega_todos(status,indice,os,obsemail,obsinterna):
@@ -312,7 +311,7 @@ if (pg == 'Edição individual'):
                url ='https://drive.google.com/file/d/' + id + '/preview' #'https://drive.google.com/uc?export=view&id=' + id #
                print(url)
                dir+='<iframe src="'+url+'"></iframe><br>'
-    
+
                #components.iframe(url)
                #st.image(url)
                #htm = '<img src="'+url+'" alt="Foto" width="100" height="100"><br>'
