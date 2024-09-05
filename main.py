@@ -7,6 +7,7 @@ from datetime import date, datetime
 from io import BytesIO
 import pytz
 import matplotlib.pyplot as plt
+import requests
 
 fuso_horario_sp = pytz.timezone('America/Sao_Paulo')
 # ocultar menu
@@ -101,7 +102,7 @@ horas = ['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
 
 # 2) padroes #####################################################################################################
 padrao = '<p style="font-family:Courier; color:Blue; font-size: 16px;">'
-infor = '<p style="font-family:Courier; color:Green; font-size: 16px;">'
+infor = '<p style="font-family:Courier; color:Green; font-size: 14px;">'
 alerta = '<p style="font-family:Courier; color:Red; font-size: 17px;">'
 titulo = '<p style="font-family:Courier; color:Blue; font-size: 20px;">'
 cabecalho = '<div id="logo" class="span8 small"><h1>CONTROLE DE ORDENS DE SERVIÇO - UFT</h1></div>'
@@ -119,7 +120,17 @@ cabecalho = '<div id="logo" class="span8 small"><h1>CONTROLE DE ORDENS DE SERVI�
 # 3) FUNÇÕES GLOBAIS #############################################################################################
 
 
-def registra_historico(codigo,status,obsusuario,obsinterna):
+def get_user_ip():
+    try:
+        # Faz uma requisição para um serviço de IP
+        response = requests.get("https://httpbin.org/ip")
+        ip = response.json()['origin']
+        return ip
+    except Exception as e:
+        return f"..."
+
+ip_usuario = get_user_ip()
+def registra_historico(codigo,status,obsusuario,obsinterna,ip_usuario):
     chave = '1zqIL_TnTewKwPkTTWtLlrsGBQnl9r6ZN6GSrjromXq4'
     aba = 'historico'
     sheet2, dados2, df2 = conexao(aba=aba, chave=chave)
@@ -134,6 +145,7 @@ def registra_historico(codigo,status,obsusuario,obsinterna):
     sheet2.update_acell('D' + str(celula.row), status)
     sheet2.update_acell('E' + str(celula.row), obsusuario)
     sheet2.update_acell('F' + str(celula.row), obsinterna)
+    sheet2.update_acell('E' + str(celula.row), ip_usuario)
 
 def next_available_row(worksheet):
     str_list = list(filter(None, worksheet.col_values(1)))
@@ -169,6 +181,10 @@ if (pg == 'Edição individual'):
     st.markdown(cabecalho, unsafe_allow_html=True)
     st.subheader(pg)
     # cabeçalho
+    
+    st.markdown(
+        infor + f'<Strong><i>Usuário: {ip_usuario}</i></Strong></p>',
+        unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
     filtrando = col1.multiselect('Selecione o Status para Filtrar', status)
@@ -349,7 +365,7 @@ if (pg == 'Edição individual'):
                     sheet.update_acell('X' + str(celula.row), 'sim' if status_reg == 'Cancelada' else '')
                 st.success('Registro efetuado!')
                 with st.spinner('Registrando histórico..Aguarde!'):
-                    registra_historico(selecionado, status_reg, obs_usr, obs_int)
+                    registra_historico(selecionado, status_reg, obs_usr, obs_int, ip_usuario)
             else:
                 st.error('Código de OS inválido!')
         elif (botao == True and s != a):
@@ -363,6 +379,11 @@ elif pg == 'Edição em Lote':
     st.markdown(cabecalho, unsafe_allow_html=True)
 
     st.subheader(pg)
+    
+    st.markdown(
+        infor + f'<Strong><i>Usuário: {ip_usuario}</i></Strong></p>',
+        unsafe_allow_html=True)
+    
     col1, col2 = st.columns(2)
     filtrando = col1.multiselect('Selecione o Status para Filtrar', status)
     if (filtrando == ['Todas Ativas']):
@@ -478,7 +499,7 @@ elif pg == 'Edição em Lote':
                             data_reg = data_hoje.strftime('%d/%m/%Y')
                             sheet.update_acell('P' + str(celula.row), data_reg)
                             with st.spinner('Registrando histórico..Aguarde!'):
-                                registra_historico(id_uft[ordem_servico.index(selecionado_i)], status_reg, obs_usr, obs_int)
+                                registra_historico(id_uft[ordem_servico.index(selecionado_i)], status_reg, obs_usr, obs_int, ip_usuario)
 
                         # sheet.update_acell('R' + str(celula.row), '')  # apagar Sim para enviar e-mail
                         if (obs_usr != ''):
@@ -509,7 +530,11 @@ elif pg == 'Alertas':
     st.markdown(cabecalho, unsafe_allow_html=True)
 
     st.subheader(pg)
-
+    
+    st.markdown(
+        infor + f'<Strong><i>Usuário: {ip_usuario}</i></Strong></p>',
+        unsafe_allow_html=True)
+    
     chave = '1zqIL_TnTewKwPkTTWtLlrsGBQnl9r6ZN6GSrjromXq4'
 
     aba = 'Alertas'
@@ -622,7 +647,10 @@ elif pg == 'Alertas':
     # Exibir o gráfico no Streamlit
     st.pyplot(fig1)
 elif pg == 'Consulta':
-
+    
+    st.markdown(
+        infor + f'<Strong><i>Usuário: {ip_usuario}</i></Strong></p>',
+        unsafe_allow_html=True)
     # PÁGINA DE CONSULTA ************************************************************************************************
     # st.markdown(cabecalho, unsafe_allow_html=True)
     # st.subheader(pg)
@@ -764,7 +792,6 @@ elif pg == 'Consulta':
             dad = dad1
         else:
             dad = dados[filtrar]
-    
     try:
         st.markdown(
             alerta + f'<Strong><i>Número de OS com o filtro correspondente: {len(dad[dad['area_manutencao'].str.strip() != ''])}.</i></Strong></p>',
@@ -775,6 +802,7 @@ elif pg == 'Consulta':
                            file_name='filtro_planilha.xlsx')
     except:
         pass
+
 
         # dados_graf=pd.DataFrame(dados[filtrar],columns=[coluna1,coluna2])
         # fig = px.bar(dados_graf, x=coluna1, y=coluna2, barmode='group', height=400)
@@ -897,7 +925,9 @@ elif pg == 'Consulta':
 elif pg == 'Prioridades do dia':
     st.markdown(cabecalho, unsafe_allow_html=True)
     st.subheader(pg)
-
+    st.markdown(
+        infor + f'<Strong><i>Usuário: {ip_usuario}</i></Strong></p>',
+        unsafe_allow_html=True)
     chave = '1zqIL_TnTewKwPkTTWtLlrsGBQnl9r6ZN6GSrjromXq4'
     aba = st.selectbox('Selecione a área', areas)
     sheet2, dados2, df2 = conexao(aba=aba, chave=chave)
