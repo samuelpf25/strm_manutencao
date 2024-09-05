@@ -911,14 +911,29 @@ elif pg == 'Consulta':
         ############################## GRAF #######################################
         # Agrupar por area_manutencao e contar o total de OS por área
         # Filtrar os dados para ignorar valores vazios em 'area_manutencao'
+        m_area = st.number_input(min_value=0, max_value=100, step=1, label='Desconsiderar menores que %')
+
         df_filtered = df2[df2['area_manutencao'].notna() & (df2['area_manutencao'] != '')]
 
         # Agrupar por area_manutencao e contar o total de OS por área
         chart_data = df_filtered.groupby('area_manutencao').size()
 
+        # Calcular o percentual de cada fatia
+        percentages = chart_data / chart_data.sum() * 100
+
+        # Definir um limite de 5% e agrupar as fatias menores que esse valor
+        limit = m_area
+        small_categories = percentages[percentages < limit]
+        other_total = small_categories.sum()
+
+        # Filtrar as categorias maiores que o limite e adicionar "Outros"
+        large_categories = chart_data[percentages >= limit]
+        if other_total > 0:
+            large_categories['Agrupados'] = small_categories.sum()
+
         # Rótulos e tamanhos para o gráfico de pizza
-        labels = chart_data.index
-        sizes = chart_data.values
+        labels = large_categories.index
+        sizes = large_categories.values
 
         # Explode apenas a fatia maior (opcional, aqui explodimos a maior área)
         explode = [0.1 if size == max(sizes) else 0 for size in sizes]
@@ -929,6 +944,7 @@ elif pg == 'Consulta':
                 shadow=True, startangle=90)
         ax1.axis('equal')  # Para garantir que o gráfico fique em formato de círculo.
         ax1.set_title('OS por Área de Manutenção')
+
         # Exibir o gráfico no Streamlit
         st.pyplot(fig1)
 
@@ -951,7 +967,7 @@ elif pg == 'Consulta':
         # Filtrar as categorias maiores que o limite e adicionar "Outros"
         large_categories = chart_data[percentages >= limit]
         if other_total > 0:
-            large_categories['Outros'] = small_categories.sum()
+            large_categories['Agrupados'] = small_categories.sum()
 
         # Rótulos e tamanhos para o gráfico de pizza
         labels = large_categories.index
@@ -971,14 +987,29 @@ elif pg == 'Consulta':
         st.pyplot(fig1)
 
         ############################## GRAF #######################################
+        m_status = st.number_input(min_value=0, max_value=100, step=1, label='Desconsiderar menores que %')
+        
         df_filtered = df2[df2['status_uft'].notna() & (df2['status_uft'] != '')]
 
-        # Agrupar por area_manutencao e contar o total de OS por área
+        # Agrupar por status_uft e contar o total de OS por status
         chart_data = df_filtered.groupby('status_uft').size()
 
+        # Calcular o percentual de cada fatia
+        percentages = chart_data / chart_data.sum() * 100
+
+        # Definir um limite de 5% e agrupar as fatias menores que esse valor
+        limit = m_status
+        small_categories = percentages[percentages < limit]
+        other_total = small_categories.sum()
+
+        # Filtrar as categorias maiores que o limite e adicionar "Outros"
+        large_categories = chart_data[percentages >= limit]
+        if other_total > 0:
+            large_categories['Agrupados'] = other_total
+
         # Rótulos e tamanhos para o gráfico de pizza
-        labels = chart_data.index
-        sizes = chart_data.values
+        labels = large_categories.index
+        sizes = large_categories.values
 
         # Explode apenas a fatia maior (opcional, aqui explodimos a maior área)
         explode = [0.1 if size == max(sizes) else 0 for size in sizes]
@@ -989,9 +1020,11 @@ elif pg == 'Consulta':
                 shadow=True, startangle=90)
         ax1.axis('equal')  # Para garantir que o gráfico fique em formato de círculo.
         ax1.set_title('OS por Status')
+
         # Exibir o gráfico no Streamlit
         st.pyplot(fig1)
 
+        ###################### GRAF #######################
         # Filtrar apenas os registros com status "Atendida"
         df_atendida = df2[df2['status_uft'] == 'Atendida']
 
