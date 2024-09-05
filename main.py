@@ -523,9 +523,10 @@ elif pg == 'Alertas':
     dad_h = dados_hist
     st.dataframe(dad_h.astype(str))
 
-    chart_data = pd.DataFrame(df2[['ordem_servico', 'status_uft']])
-
-    st.bar_chart(chart_data, x="ordem_servico", y="status_uft")
+    chart_data = df2.groupby(['area_manutencao', 'status_uft']).size().unstack(fill_value=0)
+    
+    # Exibir gráfico de barras
+    st.bar_chart(chart_data)
 
 elif pg == 'Consulta':
 
