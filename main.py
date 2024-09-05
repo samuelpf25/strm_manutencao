@@ -955,6 +955,28 @@ elif pg == 'Consulta':
         ax1.set_title('OS por Status')
         # Exibir o gráfico no Streamlit
         st.pyplot(fig1)
+
+        # Filtrar apenas os registros com status "Atendida"
+        df_atendida = df2[df2['status_uft'] == 'Atendida']
+
+        # Converter colunas de data para datetime e calcular o tempo de resposta
+        df_atendida['data_solicitacao'] = pd.to_datetime(df_atendida['data_solicitacao'])
+        df_atendida['data_status'] = pd.to_datetime(df_atendida['data_status'])
+        df_atendida['tempo_resposta'] = (df_atendida['data_status'] - df_atendida['data_solicitacao']).dt.days
+
+        # Agrupar por tipo de solicitação e calcular o tempo médio de resposta
+        tempo_medio = df_atendida.groupby('area_manutencao')['tempo_resposta'].mean()
+
+        # Gráfico de linha
+        fig, ax = plt.subplots()
+        tempo_medio.plot(kind='line', marker='o', ax=ax)
+
+        ax.set_title('Tempo Médio para Atendimento por Área')
+        ax.set_xlabel('Tipo de Solicitação')
+        ax.set_ylabel('Tempo Médio (dias)')
+
+        st.pyplot(fig)
+
     except:
         pass
 
