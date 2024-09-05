@@ -771,7 +771,7 @@ elif pg == 'Consulta':
     # Converte todas as colunas para strings para evitar erros de conversão
     titulos = ['data_hora', 'nome_solicitante', 'area_manutencao', 'tipo_solicitacao', 'descricao_sucinta',
                'sala', 'data_solicitacao', 'telefone', 'urg_uft', 'status_uft', 'data_status',
-               'alerta_coluna', 'pontos', 'ordem_servico', 'obs_usuario', 'obs_interna', 'predio', 'sala', 'email']
+               'alerta_coluna', 'pontos', 'ordem_servico', 'obs_usuario', 'obs_interna', 'predio', 'email']
 
     dados = df[titulos].astype(str).fillna('')  # Garante que todos os dados sejam strings
     dad = dados
