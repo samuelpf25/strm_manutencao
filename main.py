@@ -96,7 +96,7 @@ obs_interna = []
 sala = []
 email=[]
 id_uft=[]
-
+foto_video=[]
 
 horas = ['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30',
          '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30']
@@ -255,7 +255,8 @@ if (pg == 'Edição individual'):
                 obs_interna.append(df['obs_interna'][dic])
                 id_uft.append(df['id_uft'][dic])
                 email.append(df['email'][dic])
-
+                foto_video.append(df['foto_video'][dic])
+                
         else:
 
             if df['status_uft'][dic] in filtrando and df['area_manutencao'][dic] != '':
@@ -278,7 +279,8 @@ if (pg == 'Edição individual'):
                 obs_interna.append(df['obs_interna'][dic])
                 id_uft.append(df['id_uft'][dic])
                 email.append(df['email'][dic])
-
+                foto_video.append(df['foto_video'][dic])
+                
     if len(data_hora) > 1 and (filtra_os != ''):
         st.markdown(
             alerta + f'<Strong><i>Foram encontradas {len(data_hora)} Ordens de Serviço com este mesmo número, selecione abaixo a solicitação correspondente:</i></Strong></p>',
@@ -301,6 +303,21 @@ if (pg == 'Edição individual'):
         st.markdown(padrao + '<b>Descrição</b>: ' + str(descricao_sucinta[n]) + '</p>', unsafe_allow_html=True)
         st.markdown(padrao + '<b>Telefone</b>: ' + telefone[n] + '</p>', unsafe_allow_html=True)
         st.markdown(padrao + '<b>E-mail:</b>' + email[n] + '</p>', unsafe_allow_html=True)
+        cont=0
+        dir = ''
+        for link in foto_video[n].split(', '):
+           link1 = link.split('id=')
+           id = link1[1]
+           url ='https://drive.google.com/file/d/' + id + '/preview' #'https://drive.google.com/uc?export=view&id=' + id #
+           print(url)
+           dir+='<iframe src="'+url+'"></iframe><br>'
+
+           #components.iframe(url)
+           #st.image(url)
+           #htm = '<img src="'+url+'" alt="Foto" width="100" height="100"><br>'
+           #components.html(htm + '<br>Foto ' + str(cont))
+           cont += 1
+        st.write(dir, unsafe_allow_html=True)
 
         with st.expander("Histórico da OS"):
             bot = st.button("Carregar Histórico")
