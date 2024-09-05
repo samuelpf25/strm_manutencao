@@ -694,7 +694,11 @@ elif pg == 'Consulta':
 
         # Supondo que df2 já tenha sido carregado
         # Agrupar por area_manutencao e contar o total de OS por área
-        chart_data = dad.groupby('area_manutencao').size()
+        # Filtrar os dados para ignorar valores vazios em 'area_manutencao'
+        df_filtered = dad[dad['area_manutencao'].notna() & (dad['area_manutencao'] != '')]
+
+        # Agrupar por area_manutencao e contar o total de OS por área
+        chart_data = df_filtered.groupby('area_manutencao').size()
 
         # Rótulos e tamanhos para o gráfico de pizza
         labels = chart_data.index
