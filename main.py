@@ -523,9 +523,9 @@ elif pg == 'Alertas':
     dad_h = dados_hist
     st.dataframe(dad_h.astype(str))
 
-    chart_data = pd.DataFrame(df2[['area_manutencao', 'status_uft']])
+    chart_data = pd.DataFrame(df2[['ordem_servico', 'status_uft']])
 
-    st.bar_chart(chart_data, x="area_manutencao", y="status_uft")
+    st.bar_chart(chart_data, x="ordem_servico", y="status_uft")
 
 elif pg == 'Consulta':
 
