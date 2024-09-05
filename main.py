@@ -664,14 +664,29 @@ elif pg == 'Alertas':
     st.pyplot(fig1)
 
     ############################## GRAF #######################################
+    m_predio = st.number_input(min_value=0, max_value=100, step=1, label='Agrupar menores que %')
+
     df_filtered = df2[df2['predio'].notna() & (df2['predio'] != '')]
 
-    # Agrupar por area_manutencao e contar o total de OS por área
+    # Agrupar por predio e contar o total de OS por prédio
     chart_data = df_filtered.groupby('predio').size()
 
+    # Calcular o percentual de cada fatia
+    percentages = chart_data / chart_data.sum() * 100
+
+    # Definir um limite de 5% e agrupar as fatias menores que esse valor
+    limit = m_predio
+    small_categories = percentages[percentages < limit]
+    other_total = small_categories.sum()
+
+    # Filtrar as categorias maiores que o limite e adicionar "Outros"
+    large_categories = chart_data[percentages >= limit]
+    if other_total > 0:
+        large_categories['Outros'] = small_categories.sum()
+
     # Rótulos e tamanhos para o gráfico de pizza
-    labels = chart_data.index
-    sizes = chart_data.values
+    labels = large_categories.index
+    sizes = large_categories.values
 
     # Explode apenas a fatia maior (opcional, aqui explodimos a maior área)
     explode = [0.1 if size == max(sizes) else 0 for size in sizes]
@@ -682,6 +697,7 @@ elif pg == 'Alertas':
             shadow=True, startangle=90)
     ax1.axis('equal')  # Para garantir que o gráfico fique em formato de círculo.
     ax1.set_title('OS por Prédio')
+
     # Exibir o gráfico no Streamlit
     st.pyplot(fig1)
 
@@ -859,6 +875,8 @@ elif pg == 'Consulta':
 
     try:
         df2 = dad
+
+
         # Remover valores vazios
         df_filtered = df2[df2['area_manutencao'].str.strip() != '']
         df_filtered = df_filtered[df_filtered['status_uft'].str.strip() != '']
@@ -915,14 +933,29 @@ elif pg == 'Consulta':
         st.pyplot(fig1)
 
         ############################## GRAF #######################################
+        m_predio = st.number_input(min_value=0,max_value=100,step=1,label='Agrupar menores que %')
+
         df_filtered = df2[df2['predio'].notna() & (df2['predio'] != '')]
 
-        # Agrupar por area_manutencao e contar o total de OS por área
+        # Agrupar por predio e contar o total de OS por prédio
         chart_data = df_filtered.groupby('predio').size()
 
+        # Calcular o percentual de cada fatia
+        percentages = chart_data / chart_data.sum() * 100
+
+        # Definir um limite de 5% e agrupar as fatias menores que esse valor
+        limit = m_predio
+        small_categories = percentages[percentages < limit]
+        other_total = small_categories.sum()
+
+        # Filtrar as categorias maiores que o limite e adicionar "Outros"
+        large_categories = chart_data[percentages >= limit]
+        if other_total > 0:
+            large_categories['Outros'] = small_categories.sum()
+
         # Rótulos e tamanhos para o gráfico de pizza
-        labels = chart_data.index
-        sizes = chart_data.values
+        labels = large_categories.index
+        sizes = large_categories.values
 
         # Explode apenas a fatia maior (opcional, aqui explodimos a maior área)
         explode = [0.1 if size == max(sizes) else 0 for size in sizes]
@@ -933,6 +966,7 @@ elif pg == 'Consulta':
                 shadow=True, startangle=90)
         ax1.axis('equal')  # Para garantir que o gráfico fique em formato de círculo.
         ax1.set_title('OS por Prédio')
+
         # Exibir o gráfico no Streamlit
         st.pyplot(fig1)
 
