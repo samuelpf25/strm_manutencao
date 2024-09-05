@@ -680,69 +680,76 @@ elif pg == 'Consulta':
 
     st.markdown(cabecalho, unsafe_allow_html=True)
     st.subheader(pg)
+    
+
     titulos = ['data_hora', 'nome_solicitante', 'area_manutencao', 'tipo_solicitacao', 'descricao_sucinta',
                'sala', 'data_solicitacao', 'telefone', 'urg_uft', 'status_uft', 'data_status',
                'alerta_coluna', 'pontos', 'ordem_servico', 'obs_usuario', 'obs_interna', 'predio','sala','email']
+    dados = df[titulos].astype(str).fillna('')
+    dad = dados
+    
+    st.markdown(
+        alerta + f'<Strong><i>Número de OS com o filtro correspondente: {len(dad)}.</i></Strong></p>',
+        unsafe_allow_html=True)
     with st.form(key='form1'):
         tit_plan = titulos
         coluna_busca = st.selectbox('Coluna para busca por argumento', tit_plan)
         texto = st.text_input('Busca por argumento na coluna selecionada: ')
-        col1, col2 = st.columns(2)
-        col3, col4 = st.columns(2)
-        col5, col6 = st.columns(2)
+        # col1, col2 = st.columns(2)
+        # col3, col4 = st.columns(2)
+        # col5, col6 = st.columns(2)
         filtrar = []
-
-        dados = df[titulos].astype(str).fillna('')
-        dad = dados
-        valor = data_solicitacao
-        valor = list(dict.fromkeys(valor))  # removendo valores duplicados
-        valor = sorted(valor)  # ordenando lista de string
-        filtro_data = col1.multiselect('Filtrar por Data:', valor)
-        if (len(filtro_data) > 0):
-            if (len(filtrar) > 0):
-                filtrar = filtrar & dados['data_solicitacao'].isin(filtro_data)
-            else:
-                filtrar = dados['data_solicitacao'].isin(filtro_data)
-
-        valor = ordem_servico
-        valor = list(dict.fromkeys(valor))  # removendo valores duplicados
-        valor = sorted(valor)  # ordenando lista de string
-        filtro_os = col2.multiselect('Filtrar por Ordem de Serviço:', valor)
-        if (len(filtro_os) > 0):
-            if (len(filtrar) > 0):
-                filtrar = filtrar & dados['ordem_servico'].isin(filtro_os)
-            else:
-                filtrar = dados['ordem_servico'].isin(filtro_os)
-        valor = nome_solicitante
-        valor = list(dict.fromkeys(valor))  # removendo valores duplicados
-        valor = sorted(valor)  # ordenando lista de string
-        filtro_solicitante = col3.multiselect('Filtrar por Nome do Solicitante:', valor)
-        if (len(filtro_solicitante) > 0):
-            # filtro_solicitante=valor
-            if (len(filtrar) > 0):
-                filtrar = filtrar & dados['nome_solicitante'].isin(filtro_solicitante)
-            else:
-                filtrar = dados['nome_solicitante'].isin(filtro_solicitante)
-
-        valor = status_todos
-        valor = list(dict.fromkeys(valor))  # removendo valores duplicados
-        valor = sorted(valor)  # ordenando lista de string
-        filtro_status = col4.multiselect('Filtrar por Status:', valor)
-        if (len(filtro_status) > 0):
-            if (len(filtrar) > 0):
-                filtrar = filtrar & dados['status_uft'].isin(filtro_status)
-            else:
-                filtrar = dados['status_uft'].isin(filtro_status)
-
-        valor = predio
-        valor = list(dict.fromkeys(valor))  # removendo valores duplicados
-        valor = sorted(valor)  # ordenando lista de string
-        filtro_predio = col5.multiselect('Filtrar por localização:', valor)
-        if (len(filtro_predio) > 0):
-            if (len(filtrar) > 0):
-                filtrar = filtrar & dados['predio'].isin(filtro_predio)
-            else:
-                filtrar = dados['predio'].isin(filtro_predio)
+        #
+        #
+        # valor = data_solicitacao
+        # valor = list(dict.fromkeys(valor))  # removendo valores duplicados
+        # valor = sorted(valor)  # ordenando lista de string
+        # filtro_data = col1.multiselect('Filtrar por Data:', valor)
+        # if (len(filtro_data) > 0):
+        #     if (len(filtrar) > 0):
+        #         filtrar = filtrar & dados['data_solicitacao'].isin(filtro_data)
+        #     else:
+        #         filtrar = dados['data_solicitacao'].isin(filtro_data)
+        #
+        # valor = ordem_servico
+        # valor = list(dict.fromkeys(valor))  # removendo valores duplicados
+        # valor = sorted(valor)  # ordenando lista de string
+        # filtro_os = col2.multiselect('Filtrar por Ordem de Serviço:', valor)
+        # if (len(filtro_os) > 0):
+        #     if (len(filtrar) > 0):
+        #         filtrar = filtrar & dados['ordem_servico'].isin(filtro_os)
+        #     else:
+        #         filtrar = dados['ordem_servico'].isin(filtro_os)
+        # valor = nome_solicitante
+        # valor = list(dict.fromkeys(valor))  # removendo valores duplicados
+        # valor = sorted(valor)  # ordenando lista de string
+        # filtro_solicitante = col3.multiselect('Filtrar por Nome do Solicitante:', valor)
+        # if (len(filtro_solicitante) > 0):
+        #     # filtro_solicitante=valor
+        #     if (len(filtrar) > 0):
+        #         filtrar = filtrar & dados['nome_solicitante'].isin(filtro_solicitante)
+        #     else:
+        #         filtrar = dados['nome_solicitante'].isin(filtro_solicitante)
+        #
+        # valor = status_todos
+        # valor = list(dict.fromkeys(valor))  # removendo valores duplicados
+        # valor = sorted(valor)  # ordenando lista de string
+        # filtro_status = col4.multiselect('Filtrar por Status:', valor)
+        # if (len(filtro_status) > 0):
+        #     if (len(filtrar) > 0):
+        #         filtrar = filtrar & dados['status_uft'].isin(filtro_status)
+        #     else:
+        #         filtrar = dados['status_uft'].isin(filtro_status)
+        #
+        # valor = predio
+        # valor = list(dict.fromkeys(valor))  # removendo valores duplicados
+        # valor = sorted(valor)  # ordenando lista de string
+        # filtro_predio = col5.multiselect('Filtrar por localização:', valor)
+        # if (len(filtro_predio) > 0):
+        #     if (len(filtrar) > 0):
+        #         filtrar = filtrar & dados['predio'].isin(filtro_predio)
+        #     else:
+        #         filtrar = dados['predio'].isin(filtro_predio)
 
         btn1 = st.form_submit_button('Filtrar')
         if (len(filtrar) == 0):
