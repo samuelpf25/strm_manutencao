@@ -161,7 +161,7 @@ ip_script = """
         <input type="hidden" id="ip_input" name="ip_input" />
     </form>
 """
-components.html(ip_id)
+
 # Injeta o script no Streamlit
 components.html(ip_script)
 # Lê o valor do IP enviado via formulário
@@ -967,8 +967,10 @@ elif pg == 'Prioridades do dia':
     st.subheader(pg)
     # st.markdown(
     #     infor + components.html(ip_id),
-    #     unsafe_allow_html=True)
     chave = '1zqIL_TnTewKwPkTTWtLlrsGBQnl9r6ZN6GSrjromXq4'
     aba = st.selectbox('Selecione a área', areas)
     sheet2, dados2, df2 = conexao(aba=aba, chave=chave)
     st.dataframe(df2)
+
+
+components.html(ip_id)
