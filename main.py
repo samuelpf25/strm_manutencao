@@ -138,7 +138,7 @@ ip_id = """
         fetch('https://api64.ipify.org?format=json')
         .then(response => response.json())
         .then(data => {
-            document.body.innerHTML += '<p id="ip">Usuário identificado: ' + data.ip + '</p>';
+            document.body.innerHTML += '<p id="ip" style="color:red;">Usuário identificado: ' + data.ip + '</p>';
         });
     </script>
 """
@@ -161,7 +161,7 @@ ip_script = """
         <input type="hidden" id="ip_input" name="ip_input" />
     </form>
 """
-
+components.html(ip_id)
 # Injeta o script no Streamlit
 components.html(ip_script)
 # Lê o valor do IP enviado via formulário
@@ -222,9 +222,9 @@ if (pg == 'Edição individual'):
     st.subheader(pg)
     # cabeçalho
 
-    st.markdown(
-        infor + components.html(ip_id),
-        unsafe_allow_html=True)
+    # st.markdown(
+    #     infor + components.html(ip_id),
+    #     unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
     filtrando = col1.multiselect('Selecione o Status para Filtrar', status)
@@ -420,9 +420,9 @@ elif pg == 'Edição em Lote':
 
     st.subheader(pg)
 
-    st.markdown(
-        infor + components.html(ip_id),
-        unsafe_allow_html=True)
+    # st.markdown(
+    #     infor + components.html(ip_id),
+    #     unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
     filtrando = col1.multiselect('Selecione o Status para Filtrar', status)
@@ -571,9 +571,9 @@ elif pg == 'Alertas':
 
     st.subheader(pg)
 
-    st.markdown(
-        infor + components.html(ip_id),
-        unsafe_allow_html=True)
+    # st.markdown(
+    #     infor + components.html(ip_id),
+    #     unsafe_allow_html=True)
 
     chave = '1zqIL_TnTewKwPkTTWtLlrsGBQnl9r6ZN6GSrjromXq4'
 
@@ -688,9 +688,9 @@ elif pg == 'Alertas':
     st.pyplot(fig1)
 elif pg == 'Consulta':
 
-    st.markdown(
-        infor + components.html(ip_id),
-        unsafe_allow_html=True)
+    # st.markdown(
+    #     infor + components.html(ip_id),
+    #     unsafe_allow_html=True)
     # PÁGINA DE CONSULTA ************************************************************************************************
     # st.markdown(cabecalho, unsafe_allow_html=True)
     # st.subheader(pg)
@@ -965,9 +965,9 @@ elif pg == 'Consulta':
 elif pg == 'Prioridades do dia':
     st.markdown(cabecalho, unsafe_allow_html=True)
     st.subheader(pg)
-    st.markdown(
-        infor + components.html(ip_id),
-        unsafe_allow_html=True)
+    # st.markdown(
+    #     infor + components.html(ip_id),
+    #     unsafe_allow_html=True)
     chave = '1zqIL_TnTewKwPkTTWtLlrsGBQnl9r6ZN6GSrjromXq4'
     aba = st.selectbox('Selecione a área', areas)
     sheet2, dados2, df2 = conexao(aba=aba, chave=chave)
