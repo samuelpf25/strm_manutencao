@@ -664,7 +664,7 @@ elif pg == 'Alertas':
     st.pyplot(fig1)
 
     ############################## GRAF #######################################
-    m_predio = st.number_input(min_value=0, max_value=100, step=1, label='Agrupar menores que %')
+    m_predio = st.number_input(min_value=0, max_value=100, step=1, label='Desconsiderar menores que %')
 
     df_filtered = df2[df2['predio'].notna() & (df2['predio'] != '')]
 
@@ -674,19 +674,13 @@ elif pg == 'Alertas':
     # Calcular o percentual de cada fatia
     percentages = (chart_data / chart_data.sum()) * 100
 
-    # Definir um limite de 5% e agrupar as fatias menores que esse valor
+    # Desconsiderar as fatias menores que o limite
     limit = m_predio
-    small_categories = percentages[percentages < limit]
-    other_total = small_categories.sum()
-
-    # Filtrar as categorias maiores que o limite e adicionar "Outros"
-    large_categories = chart_data[percentages >= limit]
-    if other_total > 0:
-        large_categories['Agrupados'] = small_categories.sum()
+    filtered_categories = chart_data[percentages >= limit]
 
     # Rótulos e tamanhos para o gráfico de pizza
-    labels = large_categories.index
-    sizes = large_categories.values
+    labels = filtered_categories.index
+    sizes = filtered_categories.values
 
     # Explode apenas a fatia maior (opcional, aqui explodimos a maior área)
     explode = [0.1 if size == max(sizes) else 0 for size in sizes]
@@ -933,7 +927,7 @@ elif pg == 'Consulta':
         st.pyplot(fig1)
 
         ############################## GRAF #######################################
-        m_predio = st.number_input(min_value=0,max_value=100,step=1,label='Agrupar menores que %')
+        m_predio = st.number_input(min_value=0, max_value=100, step=1, label='Desconsiderar menores que %')
 
         df_filtered = df2[df2['predio'].notna() & (df2['predio'] != '')]
 
@@ -943,19 +937,13 @@ elif pg == 'Consulta':
         # Calcular o percentual de cada fatia
         percentages = (chart_data / chart_data.sum()) * 100
 
-        # Definir um limite de 5% e agrupar as fatias menores que esse valor
+        # Desconsiderar as fatias menores que o limite
         limit = m_predio
-        small_categories = percentages[percentages < limit]
-        other_total = small_categories.sum()
-
-        # Filtrar as categorias maiores que o limite e adicionar "Outros"
-        large_categories = chart_data[percentages >= limit]
-        if other_total > 0:
-            large_categories['Agrupados'] = small_categories.sum()
+        filtered_categories = chart_data[percentages >= limit]
 
         # Rótulos e tamanhos para o gráfico de pizza
-        labels = large_categories.index
-        sizes = large_categories.values
+        labels = filtered_categories.index
+        sizes = filtered_categories.values
 
         # Explode apenas a fatia maior (opcional, aqui explodimos a maior área)
         explode = [0.1 if size == max(sizes) else 0 for size in sizes]
