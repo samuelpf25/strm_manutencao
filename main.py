@@ -132,22 +132,27 @@ def get_user_ip():
 
 
 # JavaScript to capture IP
+# Cria o componente de HTML com o script para capturar o IP e enviá-lo via formulário oculto
 ip_script = """
     <script>
         fetch('https://api64.ipify.org?format=json')
         .then(response => response.json())
         .then(data => {
-            document.body.innerHTML += '<p id="ip">' + data.ip + '</p>';
+            var ipInput = document.getElementById('ip_input');
+            ipInput.value = data.ip;
+            ipInput.form.submit();
         });
     </script>
+    <form action="" method="post">
+        <input type="hidden" id="ip_input" name="ip_input" />
+    </form>
 """
-st.markdown(ip_script)
 
-# Inject the script into the Streamlit app
+# Injeta o script no Streamlit
 components.html(ip_script)
-
-# Retrieve the IP from the injected HTML
-ip = st.session_state.get('ip', '')
+# Lê o valor do IP enviado via formulário
+if 'ip_input' in st.experimental_get_query_params():
+    ip = st.experimental_get_query_params()['ip_input'][0]
 
 ip_usuario = get_user_ip()
 if (ip!=""):
