@@ -764,6 +764,8 @@ elif pg == 'Consulta':
             dad = dad1
         else:
             dad = dados[filtrar]
+
+    st.write(dad.dtypes)
     st.dataframe(dad)         
     try:
         st.markdown(
