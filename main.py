@@ -527,6 +527,73 @@ elif pg == 'Alertas':
     st.bar_chart(chart_data2)
     st.bar_chart(chart_data3)
 
+############################## GRAF #######################################
+    # Agrupar por area_manutencao e contar o total de OS por área
+    # Filtrar os dados para ignorar valores vazios em 'area_manutencao'
+    df_filtered = df2[df2['area_manutencao'].notna() & (df2['area_manutencao'] != '')]
+
+    # Agrupar por area_manutencao e contar o total de OS por área
+    chart_data = df_filtered.groupby('area_manutencao').size()
+
+    # Rótulos e tamanhos para o gráfico de pizza
+    labels = chart_data.index
+    sizes = chart_data.values
+
+    # Explode apenas a fatia maior (opcional, aqui explodimos a maior área)
+    explode = [0.1 if size == max(sizes) else 0 for size in sizes]
+
+    # Criar o gráfico de pizza
+    fig1, ax1 = plt.subplots()
+    ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
+            shadow=True, startangle=90)
+    ax1.axis('equal')  # Para garantir que o gráfico fique em formato de círculo.
+
+    # Exibir o gráfico no Streamlit
+    st.pyplot(fig1)
+
+    ############################## GRAF #######################################
+    df_filtered = df2[df2['predio'].notna() & (df2['predio'] != '')]
+
+    # Agrupar por area_manutencao e contar o total de OS por área
+    chart_data = df_filtered.groupby('predio').size()
+
+    # Rótulos e tamanhos para o gráfico de pizza
+    labels = chart_data.index
+    sizes = chart_data.values
+
+    # Explode apenas a fatia maior (opcional, aqui explodimos a maior área)
+    explode = [0.1 if size == max(sizes) else 0 for size in sizes]
+
+    # Criar o gráfico de pizza
+    fig1, ax1 = plt.subplots()
+    ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
+            shadow=True, startangle=90)
+    ax1.axis('equal')  # Para garantir que o gráfico fique em formato de círculo.
+
+    # Exibir o gráfico no Streamlit
+    st.pyplot(fig1)
+
+    ############################## GRAF #######################################
+    df_filtered = df2[df2['status_uft'].notna() & (df2['status_uft'] != '')]
+
+    # Agrupar por area_manutencao e contar o total de OS por área
+    chart_data = df_filtered.groupby('status_uft').size()
+
+    # Rótulos e tamanhos para o gráfico de pizza
+    labels = chart_data.index
+    sizes = chart_data.values
+
+    # Explode apenas a fatia maior (opcional, aqui explodimos a maior área)
+    explode = [0.1 if size == max(sizes) else 0 for size in sizes]
+
+    # Criar o gráfico de pizza
+    fig1, ax1 = plt.subplots()
+    ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
+            shadow=True, startangle=90)
+    ax1.axis('equal')  # Para garantir que o gráfico fique em formato de círculo.
+
+    # Exibir o gráfico no Streamlit
+    st.pyplot(fig1)
 elif pg == 'Consulta':
 
     # PÁGINA DE CONSULTA ************************************************************************************************
@@ -692,13 +759,57 @@ elif pg == 'Consulta':
         st.bar_chart(chart_data2)
         st.bar_chart(chart_data3)
 
-        # Supondo que df2 já tenha sido carregado
+        ############################## GRAF #######################################
         # Agrupar por area_manutencao e contar o total de OS por área
         # Filtrar os dados para ignorar valores vazios em 'area_manutencao'
         df_filtered = dad[dad['area_manutencao'].notna() & (dad['area_manutencao'] != '')]
 
         # Agrupar por area_manutencao e contar o total de OS por área
         chart_data = df_filtered.groupby('area_manutencao').size()
+
+        # Rótulos e tamanhos para o gráfico de pizza
+        labels = chart_data.index
+        sizes = chart_data.values
+
+        # Explode apenas a fatia maior (opcional, aqui explodimos a maior área)
+        explode = [0.1 if size == max(sizes) else 0 for size in sizes]
+
+        # Criar o gráfico de pizza
+        fig1, ax1 = plt.subplots()
+        ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
+                shadow=True, startangle=90)
+        ax1.axis('equal')  # Para garantir que o gráfico fique em formato de círculo.
+
+        # Exibir o gráfico no Streamlit
+        st.pyplot(fig1)
+
+        ############################## GRAF #######################################
+        df_filtered = dad[dad['predio'].notna() & (dad['predio'] != '')]
+
+        # Agrupar por area_manutencao e contar o total de OS por área
+        chart_data = df_filtered.groupby('predio').size()
+
+        # Rótulos e tamanhos para o gráfico de pizza
+        labels = chart_data.index
+        sizes = chart_data.values
+
+        # Explode apenas a fatia maior (opcional, aqui explodimos a maior área)
+        explode = [0.1 if size == max(sizes) else 0 for size in sizes]
+
+        # Criar o gráfico de pizza
+        fig1, ax1 = plt.subplots()
+        ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
+                shadow=True, startangle=90)
+        ax1.axis('equal')  # Para garantir que o gráfico fique em formato de círculo.
+
+        # Exibir o gráfico no Streamlit
+        st.pyplot(fig1)
+
+        ############################## GRAF #######################################
+        df_filtered = dad[dad['status_uft'].notna() & (dad['status_uft'] != '')]
+
+        # Agrupar por area_manutencao e contar o total de OS por área
+        chart_data = df_filtered.groupby('status_uft').size()
 
         # Rótulos e tamanhos para o gráfico de pizza
         labels = chart_data.index
