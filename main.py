@@ -764,16 +764,16 @@ elif pg == 'Consulta':
             dad = dad1
         else:
             dad = dados[filtrar]
-        try:
-            st.markdown(
-                alerta + f'<Strong><i>Número de OS com o filtro correspondente: {len(dad[dad['area_manutencao'].str.strip() != ''])}.</i></Strong></p>',
-                unsafe_allow_html=True)
-            st.dataframe(dad)  # dados[filtrar].head()
-            df_xlsx = to_excel(dad)
-            st.download_button(label='📥 Baixar Resultado do Filtro em Excel', data=df_xlsx,
-                               file_name='filtro_planilha.xlsx')
-        except:
-            pass
+    try:
+        st.markdown(
+            alerta + f'<Strong><i>Número de OS com o filtro correspondente: {len(dad[dad['area_manutencao'].str.strip() != ''])}.</i></Strong></p>',
+            unsafe_allow_html=True)
+        st.dataframe(dad)  # dados[filtrar].head()
+        df_xlsx = to_excel(dad)
+        st.download_button(label='📥 Baixar Resultado do Filtro em Excel', data=df_xlsx,
+                           file_name='filtro_planilha.xlsx')
+    except:
+        pass
 
         # dados_graf=pd.DataFrame(dados[filtrar],columns=[coluna1,coluna2])
         # fig = px.bar(dados_graf, x=coluna1, y=coluna2, barmode='group', height=400)
