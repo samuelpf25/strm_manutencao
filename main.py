@@ -166,9 +166,9 @@ a = k
 # pg=st.sidebar.selectbox('Selecione a Página',['Solicitações em Aberto','Solicitações a Finalizar','Consulta'])
 pg = st.sidebar.radio('', ['Edição individual', 'Edição em Lote', 'Consulta', 'Prioridades do dia'])
 status = ['', 'Todas Ativas', 'OS Aberta', 'Pendente de Material', 'Pendente Solicitante', 'Pendente Outros',
-          'Atendida', 'Material Solicitado', 'Material Disponível', 'Indeferido']
+          'Atendida', 'Material Solicitado', 'Material Disponível', 'Indeferido','Cancelada']
 status_todos = ['', 'OS Aberta', 'Pendente de Material', 'Pendente Solicitante', 'Pendente Outros', 'Atendida',
-                'Material Solicitado', 'Material Disponível', 'Indeferido']
+                'Material Solicitado', 'Material Disponível', 'Indeferido','Cancelada']
 if (pg == 'Edição individual'):
     # PÁGINA EDIÇÃO INDIVIDUAL ******************************************************************************************
     st.markdown(cabecalho, unsafe_allow_html=True)
@@ -333,7 +333,8 @@ if (pg == 'Edição individual'):
                     data_hoje = datetime.now(fuso_horario_sp)
                     data_reg = data_hoje.strftime('%d/%m/%Y')
                     sheet.update_acell('P' + str(celula.row), data_reg)
-                    sheet.update_acell('X' + str(celula.row), '')
+
+                    sheet.update_acell('X' + str(celula.row), 'sim' if status_reg == 'Cancelada' else '')
                 st.success('Registro efetuado!')
                 with st.spinner('Registrando histórico..Aguarde!'):
                     registra_historico(selecionado, status_reg, obs_usr, obs_int)
@@ -470,10 +471,12 @@ elif pg == 'Edição em Lote':
                         # sheet.update_acell('R' + str(celula.row), '')  # apagar Sim para enviar e-mail
                         if (obs_usr != ''):
                             # sheet.update_acell('S' + str(celula.row), obsemail)  # obs_email
-                            sheet.update_acell('MN' + str(celula.row), obs_usr)
+                            sheet.update_acell('N' + str(celula.row), obs_usr)
                         if (obs_int != ''):
                             # sheet.update_acell('AA' + str(celula.row), obsinterna)  # obs_interna
                             sheet.update_acell('O' + str(celula.row), obs_int)  # obs_interna
+
+                        sheet.update_acell('X' + str(celula.row), 'sim' if status_reg == 'Cancelada' else '')
 
                             # st.markdown(infor+'<b>Registro efetuado!</b></p>',unsafe_allow_html=True)
             if (efetuado == 1):
