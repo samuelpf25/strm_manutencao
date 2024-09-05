@@ -225,15 +225,14 @@ if (pg == 'Edição individual'):
     col1, col2 = st.columns(2)
     filtrando = col1.multiselect('Selecione o Status para Filtrar', status)
     # print(filtrando)
-    filtra_os = col2.text_input('Filtrar OS:', value='')
+    filtra_os = col2.text_input('Filtrar OS/Obs interna:', value='')
     # data_hora	nome_solicitante	area_manutencao	tipo_solicitacao	descricao_sucinta	predio	sala	data_solicitacao		telefone	urg_uft	status_uft	data_status	alerta_coluna	pontos
 
     for dic in df.index:
         if (filtrando == ['Todas Ativas']):
             filtrando = status_todos
         if filtra_os != '':
-            if df['status_uft'][dic] in filtrando and df['area_manutencao'][dic] != '' and str(
-                    df['ordem_servico'][dic]) == str(filtra_os):
+            if df['status_uft'][dic] in filtrando and df['area_manutencao'][dic] != '' and (str(df['ordem_servico'][dic]) == str(filtra_os) or str(filtra_os) in df['obs_interna'][dic]):
                 # print(df['Código da UFT'][dic])
                 data_hora.append(df['data_hora'][dic])
                 nome_solicitante.append(df['nome_solicitante'][dic])
