@@ -764,6 +764,7 @@ elif pg == 'Consulta':
             dad = dad1
         else:
             dad = dados[filtrar]
+    st.dataframe(dad)         
     try:
         st.markdown(
             alerta + f'<Strong><i>Número de OS com o filtro correspondente: {len(dad[dad['area_manutencao'].str.strip() != ''])}.</i></Strong></p>',
