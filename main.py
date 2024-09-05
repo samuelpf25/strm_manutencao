@@ -463,7 +463,7 @@ elif pg == 'Edição em Lote':
                             data_reg = data_hoje.strftime('%d/%m/%Y')
                             sheet.update_acell('P' + str(celula.row), data_reg)
                             with st.spinner('Registrando histórico..Aguarde!'):
-                                registra_historico(selecionado_i, status_reg, obs_usr, obs_int)
+                                registra_historico(id_uft[ordem_servico.index(selecionado_i)], status_reg, obs_usr, obs_int)
 
                         # sheet.update_acell('R' + str(celula.row), '')  # apagar Sim para enviar e-mail
                         if (obs_usr != ''):
