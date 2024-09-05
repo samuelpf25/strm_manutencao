@@ -978,9 +978,8 @@ elif pg == 'Consulta':
         st.pyplot(fig)
 
 
-    except:
-        pass
-
+    except Exception as e:
+        print(e)
 
 
 elif pg == 'Prioridades do dia':
