@@ -8,6 +8,7 @@ from io import BytesIO
 import pytz
 import matplotlib.pyplot as plt
 import requests
+import streamlit.components.v1 as components
 
 fuso_horario_sp = pytz.timezone('America/Sao_Paulo')
 # ocultar menu
@@ -119,17 +120,25 @@ cabecalho = '<div id="logo" class="span8 small"><h1>CONTROLE DE ORDENS DE SERVI�
 
 # 3) FUNÇÕES GLOBAIS #############################################################################################
 
+# JavaScript to capture IP
+ip_script = """
+    <script>
+        fetch('https://api64.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+            document.body.innerHTML += '<p id="ip">' + data.ip + '</p>';
+        });
+    </script>
+    <p>Obtendo IP...</p>
+"""
 
-def get_user_ip():
-    try:
-        # Faz uma requisição para um serviço de IP
-        response = requests.get("https://httpbin.org/ip")
-        ip = response.json()['origin']
-        return ip
-    except Exception as e:
-        return f"..."
+# Inject the script into the Streamlit app
+components.html(ip_script)
 
-ip_usuario = get_user_ip()
+# Retrieve the IP from the injected HTML
+ip = st.session_state.get('ip', '')
+
+ip_usuario = ip
 def registra_historico(codigo,status,obsusuario,obsinterna,ip_usuario):
     chave = '1zqIL_TnTewKwPkTTWtLlrsGBQnl9r6ZN6GSrjromXq4'
     aba = 'historico'
@@ -181,9 +190,9 @@ if (pg == 'Edição individual'):
     st.markdown(cabecalho, unsafe_allow_html=True)
     st.subheader(pg)
     # cabeçalho
-    
+
     st.markdown(
-        infor + f'<Strong><i>Usuário: {ip_usuario}</i></Strong></p>',
+        infor + f'<Strong><i>Usuário identificado: {ip_usuario}</i></Strong></p>',
         unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
@@ -379,11 +388,11 @@ elif pg == 'Edição em Lote':
     st.markdown(cabecalho, unsafe_allow_html=True)
 
     st.subheader(pg)
-    
+
     st.markdown(
-        infor + f'<Strong><i>Usuário: {ip_usuario}</i></Strong></p>',
+        infor + f'<Strong><i>Usuário identificado: {ip_usuario}</i></Strong></p>',
         unsafe_allow_html=True)
-    
+
     col1, col2 = st.columns(2)
     filtrando = col1.multiselect('Selecione o Status para Filtrar', status)
     if (filtrando == ['Todas Ativas']):
@@ -530,11 +539,11 @@ elif pg == 'Alertas':
     st.markdown(cabecalho, unsafe_allow_html=True)
 
     st.subheader(pg)
-    
+
     st.markdown(
-        infor + f'<Strong><i>Usuário: {ip_usuario}</i></Strong></p>',
+        infor + f'<Strong><i>Usuário identificado: {ip_usuario}</i></Strong></p>',
         unsafe_allow_html=True)
-    
+
     chave = '1zqIL_TnTewKwPkTTWtLlrsGBQnl9r6ZN6GSrjromXq4'
 
     aba = 'Alertas'
@@ -647,9 +656,9 @@ elif pg == 'Alertas':
     # Exibir o gráfico no Streamlit
     st.pyplot(fig1)
 elif pg == 'Consulta':
-    
+
     st.markdown(
-        infor + f'<Strong><i>Usuário: {ip_usuario}</i></Strong></p>',
+        infor + f'<Strong><i>Usuário identificado: {ip_usuario}</i></Strong></p>',
         unsafe_allow_html=True)
     # PÁGINA DE CONSULTA ************************************************************************************************
     # st.markdown(cabecalho, unsafe_allow_html=True)
@@ -926,7 +935,7 @@ elif pg == 'Prioridades do dia':
     st.markdown(cabecalho, unsafe_allow_html=True)
     st.subheader(pg)
     st.markdown(
-        infor + f'<Strong><i>Usuário: {ip_usuario}</i></Strong></p>',
+        infor + f'<Strong><i>Usuário identificado: {ip_usuario}</i></Strong></p>',
         unsafe_allow_html=True)
     chave = '1zqIL_TnTewKwPkTTWtLlrsGBQnl9r6ZN6GSrjromXq4'
     aba = st.selectbox('Selecione a área', areas)
