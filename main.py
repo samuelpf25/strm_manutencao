@@ -688,9 +688,7 @@ elif pg == 'Consulta':
     dados = df[titulos].astype(str).fillna('')
     dad = dados
 
-    st.markdown(
-        alerta + f'<Strong><i>Número de OS com o filtro correspondente: {len(dad[dad['area_manutencao'].str.strip() != ''])}.</i></Strong></p>',
-        unsafe_allow_html=True)
+
     with st.form(key='form1'):
         tit_plan = titulos
         coluna_busca = st.selectbox('Coluna para busca por argumento', tit_plan)
@@ -767,6 +765,9 @@ elif pg == 'Consulta':
         else:
             dad = dados[filtrar]
         try:
+            st.markdown(
+                alerta + f'<Strong><i>Número de OS com o filtro correspondente: {len(dad[dad['area_manutencao'].str.strip() != ''])}.</i></Strong></p>',
+                unsafe_allow_html=True)
             st.dataframe(dad)  # dados[filtrar].head()
             df_xlsx = to_excel(dad)
             st.download_button(label='📥 Baixar Resultado do Filtro em Excel', data=df_xlsx,
