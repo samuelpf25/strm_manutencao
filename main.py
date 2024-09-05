@@ -827,7 +827,7 @@ elif pg == 'Consulta':
 
         # Conversão para strings novamente para garantir compatibilidade
         dad_filtrado = dad_filtrado.astype(str)
-
+        dad = dad_filtrado
         # Exibe o DataFrame filtrado
         st.dataframe(dad_filtrado)
 
