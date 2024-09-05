@@ -63,7 +63,7 @@ rsa==4.9
 setuptools==73.0.1
 six==1.16.0
 smmap==5.0.1
-streamlit==1.37.1
+streamlit==1.38.0
 streamlit-apexjs==0.0.3
 streamlit-authenticator==0.3.3
 streamlit-awesome-table==0.1.0
