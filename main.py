@@ -132,6 +132,20 @@ def get_user_ip():
 
 
 # JavaScript to capture IP
+
+ip_id = """
+    <script>
+        fetch('https://api64.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+            document.body.innerHTML += '<p id="ip">Usuário identificado: ' + data.ip + '</p>';
+        });
+    </script>
+"""
+
+# Inject the script into the Streamlit app
+
+
 # Cria o componente de HTML com o script para capturar o IP e enviá-lo via formulário oculto
 ip_script = """
     <script>
@@ -155,7 +169,7 @@ ip_usuario = get_user_ip()
 if 'ip_input' in st.experimental_get_query_params():
     ip = st.experimental_get_query_params()['ip_input'][0]
     ip_usuario = ip
-    
+
 def registra_historico(codigo,status,obsusuario,obsinterna,ip_usuario):
     chave = '1zqIL_TnTewKwPkTTWtLlrsGBQnl9r6ZN6GSrjromXq4'
     aba = 'historico'
@@ -209,7 +223,7 @@ if (pg == 'Edição individual'):
     # cabeçalho
 
     st.markdown(
-        infor + f'<Strong><i>Usuário identificado: {ip_usuario}</i></Strong></p>',
+        infor + components.html(ip_id),
         unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
@@ -407,7 +421,7 @@ elif pg == 'Edição em Lote':
     st.subheader(pg)
 
     st.markdown(
-        infor + f'<Strong><i>Usuário identificado: {ip_usuario}</i></Strong></p>',
+        infor + components.html(ip_id),
         unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
@@ -558,7 +572,7 @@ elif pg == 'Alertas':
     st.subheader(pg)
 
     st.markdown(
-        infor + f'<Strong><i>Usuário identificado: {ip_usuario}</i></Strong></p>',
+        infor + components.html(ip_id),
         unsafe_allow_html=True)
 
     chave = '1zqIL_TnTewKwPkTTWtLlrsGBQnl9r6ZN6GSrjromXq4'
@@ -675,7 +689,7 @@ elif pg == 'Alertas':
 elif pg == 'Consulta':
 
     st.markdown(
-        infor + f'<Strong><i>Usuário identificado: {ip_usuario}</i></Strong></p>',
+        infor + components.html(ip_id),
         unsafe_allow_html=True)
     # PÁGINA DE CONSULTA ************************************************************************************************
     # st.markdown(cabecalho, unsafe_allow_html=True)
@@ -952,7 +966,7 @@ elif pg == 'Prioridades do dia':
     st.markdown(cabecalho, unsafe_allow_html=True)
     st.subheader(pg)
     st.markdown(
-        infor + f'<Strong><i>Usuário identificado: {ip_usuario}</i></Strong></p>',
+        infor + components.html(ip_id),
         unsafe_allow_html=True)
     chave = '1zqIL_TnTewKwPkTTWtLlrsGBQnl9r6ZN6GSrjromXq4'
     aba = st.selectbox('Selecione a área', areas)
