@@ -764,11 +764,12 @@ elif pg == 'Consulta':
 
     st.markdown(cabecalho, unsafe_allow_html=True)
     st.subheader(pg)
+
     titulos = ['data_hora', 'nome_solicitante', 'area_manutencao', 'tipo_solicitacao', 'descricao_sucinta',
                'sala', 'data_solicitacao', 'telefone', 'urg_uft', 'status_uft', 'data_status',
                'alerta_coluna', 'pontos', 'ordem_servico', 'obs_usuario', 'obs_interna', 'predio', 'sala', 'email']
 
-    dados = df[titulos].astype(str).fillna('')
+    dados = df[titulos].astype(str).fillna('')  # Garantindo que todos os dados sejam strings e sem valores nulos
     dad = dados
 
     with st.form(key='form1'):
@@ -797,6 +798,9 @@ elif pg == 'Consulta':
 
         # Aplicar os filtros ao DataFrame
         dad_filtrado = dados[filtros]
+
+        # Garantindo que todos os dados do DataFrame filtrado sejam strings
+        dad_filtrado = dad_filtrado.astype(str)
 
         # Exibir DataFrame filtrado
         st.dataframe(dad_filtrado)
