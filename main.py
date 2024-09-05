@@ -664,7 +664,7 @@ elif pg == 'Alertas':
     st.pyplot(fig1)
 
     ############################## GRAF #######################################
-    m_predio = st.number_input(min_value=0, max_value=100, step=1, label='Agrupar menores que %')
+    m_predio = st.number_input(min_value=0, max_value=100, step=1, label='Desconsiderar menores que %')
 
     df_filtered = df2[df2['predio'].notna() & (df2['predio'] != '')]
 
@@ -933,7 +933,7 @@ elif pg == 'Consulta':
         st.pyplot(fig1)
 
         ############################## GRAF #######################################
-        m_predio = st.number_input(min_value=0,max_value=100,step=1,label='Agrupar menores que %')
+        m_predio = st.number_input(min_value=0,max_value=100,step=1,label='Desconsiderar menores que %')
 
         df_filtered = df2[df2['predio'].notna() & (df2['predio'] != '')]
 
