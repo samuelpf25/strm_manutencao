@@ -516,7 +516,13 @@ elif pg == 'Alertas':
     sheet2, dados2, df2 = conexao(aba=aba, chave=chave, linha_inicial=1)
     dados_hist = df2[['data_hora', 'nome_solicitante', 'area_manutencao', 'predio', 'data_solicitacao','ordem_servico', 'urg_uft', 'status_uft', 'data_status', 'obs_usuario','obs_interna']]
     dad_h = dados_hist
+
+    df_filtered = df2[df2['area_manutencao'].notna() & (df2['area_manutencao'] != '')]
+    st.markdown(
+        alerta + f'<Strong><i>Número de OS em Alertas: {len(df_filtered)}.</i></Strong></p>',
+        unsafe_allow_html=True)
     st.dataframe(dad_h.astype(str))
+
 
     chart_data1 = df2.groupby(['area_manutencao', 'status_uft']).size().unstack(fill_value=0)
     chart_data2 = df2.groupby(['area_manutencao', 'tipo_solicitacao']).size().unstack(fill_value=0)
