@@ -254,6 +254,23 @@ if (pg == 'Edição individual'):
         st.markdown(padrao + '<b>Telefone</b>: ' + telefone[n] + '</p>', unsafe_allow_html=True)
         st.markdown(padrao + '<b>E-mail:</b>' + email[n] + '</p>', unsafe_allow_html=True)
 
+        with st.expander("Histórico da OS"):
+            bot = st.button("Carregar Histórico")
+            if bot == True:
+                with st.spinner('Carregando dados...'):
+                    chave = '1zqIL_TnTewKwPkTTWtLlrsGBQnl9r6ZN6GSrjromXq4'
+                    aba = 'historico'
+                    sheet2, dados2, df2 = conexao(aba=aba, chave=chave)
+                    dados_hist = df2[['data_reg','hora_reg','codigo','status','obs_usuario','obs_interna']]
+                    #print(dados_hist)
+                    # sheet.update_acell('AC1', selecionado)  # Numero UFT
+                    df_hist = df2.astype(str)
+                    filtro = df_hist['codigo'].isin([str(id_uft[n])])
+                    # df_hist = pd.DataFrame(dados_hist[filtro])
+                    dad_h = dados_hist[filtro]
+
+                    # df_hist = df_hist.astype(str)
+                    st.dataframe(dad_h.astype(str))
         celula = sheet.find(str(id_uft[n]))
         # procurando status equivalente na lista
         indice = 0
