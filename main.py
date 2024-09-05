@@ -1,4 +1,4 @@
-# última edição 04/09/2024
+# última edição 05/09/2024
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import streamlit as st
@@ -106,7 +106,7 @@ padrao = '<p style="font-family:Courier; color:Blue; font-size: 16px;">'
 infor = '<p style="font-family:Courier; color:Green; font-size: 14px;">'
 alerta = '<p style="font-family:Courier; color:Red; font-size: 17px;">'
 titulo = '<p style="font-family:Courier; color:Blue; font-size: 20px;">'
-cabecalho='<div id="logo" class="span8 small"><a title="Universidade Federal do Tocantins"><img src="https://www.uft.edu.br/static/media/LogoHeader.48fc918c.svg" alt="Universidade Federal do Tocantins"><span class="portal-title-1"></span><h1 class="portal-title corto">Universidade Federal do Tocantins</h1><span class="portal-description">COINFRA - MANUTENÇÃO PREDIAL</span></a></div>'
+cabecalho='<div id="logo" class="span8 small"><a title="Universidade Federal do Tocantins"><img src="https://www.uft.edu.br/static/media/LogoHeader.48fc918c.svg" alt="Universidade Federal do Tocantins"><span class="portal-title-1"></span><h1 class="portal-title corto">Universidade Federal do Tocantins</h1><span class="portal-description">COINFRA - ATIVIDADES</span></a></div>'
 
 # @st.cache
 # def carrega_todos(status,indice,os,obsemail,obsinterna):
@@ -739,28 +739,7 @@ elif pg == 'Consulta':
     obs_interna.append('')
     email.append('')
 
-    for dic in df.index:
-        if df['predio'][dic] != '':
-            # print(df['Código da UFT'][dic])
-            data_hora.append(df['data_hora'][dic])
-            nome_solicitante.append(df['nome_solicitante'][dic])
-            area_manutencao.append(df['area_manutencao'][dic])
-            tipo_solicitacao.append(df['tipo_solicitacao'][dic])
-            descricao_sucinta.append(df['descricao_sucinta'][dic])
-            predio.append(df['predio'][dic])
-            sala.append(df['sala'][dic])
-            data_solicitacao.append(df['data_solicitacao'][dic])
-            telefone.append(df['telefone'][dic])
-            urg_uft.append(df['urg_uft'][dic])
-            status_uft.append(df['status_uft'][dic])
-            data_status.append(df['data_status'][dic])
-            alerta_coluna.append(df['alerta_coluna'][dic])
-            pontos.append(df['pontos'][dic])
-            ordem_servico.append(df['ordem_servico'][dic])
-            obs_usuario.append(df['obs_usuario'][dic])
-            obs_interna.append(df['obs_interna'][dic])
-            id_uft.append(df['id_uft'][dic])
-            email.append(df['email'][dic])
+   
 
     st.markdown(cabecalho, unsafe_allow_html=True)
     st.subheader(pg)
@@ -769,89 +748,45 @@ elif pg == 'Consulta':
     titulos = ['data_hora', 'nome_solicitante', 'area_manutencao', 'tipo_solicitacao', 'descricao_sucinta',
                'sala', 'data_solicitacao', 'telefone', 'urg_uft', 'status_uft', 'data_status',
                'alerta_coluna', 'pontos', 'ordem_servico', 'obs_usuario', 'obs_interna', 'predio','sala','email']
-    dados = df[titulos].astype(str).fillna('')
-    dad = dados
-
 
     with st.form(key='form1'):
         tit_plan = titulos
         coluna_busca = st.selectbox('Coluna para busca por argumento', tit_plan)
         texto = st.text_input('Busca por argumento na coluna selecionada: ')
-        # col1, col2 = st.columns(2)
-        # col3, col4 = st.columns(2)
-        # col5, col6 = st.columns(2)
-        filtrar = []
-        #
-        #
-        # valor = data_solicitacao
-        # valor = list(dict.fromkeys(valor))  # removendo valores duplicados
-        # valor = sorted(valor)  # ordenando lista de string
-        # filtro_data = col1.multiselect('Filtrar por Data:', valor)
-        # if (len(filtro_data) > 0):
-        #     if (len(filtrar) > 0):
-        #         filtrar = filtrar & dados['data_solicitacao'].isin(filtro_data)
-        #     else:
-        #         filtrar = dados['data_solicitacao'].isin(filtro_data)
-        #
-        # valor = ordem_servico
-        # valor = list(dict.fromkeys(valor))  # removendo valores duplicados
-        # valor = sorted(valor)  # ordenando lista de string
-        # filtro_os = col2.multiselect('Filtrar por Ordem de Serviço:', valor)
-        # if (len(filtro_os) > 0):
-        #     if (len(filtrar) > 0):
-        #         filtrar = filtrar & dados['ordem_servico'].isin(filtro_os)
-        #     else:
-        #         filtrar = dados['ordem_servico'].isin(filtro_os)
-        # valor = nome_solicitante
-        # valor = list(dict.fromkeys(valor))  # removendo valores duplicados
-        # valor = sorted(valor)  # ordenando lista de string
-        # filtro_solicitante = col3.multiselect('Filtrar por Nome do Solicitante:', valor)
-        # if (len(filtro_solicitante) > 0):
-        #     # filtro_solicitante=valor
-        #     if (len(filtrar) > 0):
-        #         filtrar = filtrar & dados['nome_solicitante'].isin(filtro_solicitante)
-        #     else:
-        #         filtrar = dados['nome_solicitante'].isin(filtro_solicitante)
-        #
-        # valor = status_todos
-        # valor = list(dict.fromkeys(valor))  # removendo valores duplicados
-        # valor = sorted(valor)  # ordenando lista de string
-        # filtro_status = col4.multiselect('Filtrar por Status:', valor)
-        # if (len(filtro_status) > 0):
-        #     if (len(filtrar) > 0):
-        #         filtrar = filtrar & dados['status_uft'].isin(filtro_status)
-        #     else:
-        #         filtrar = dados['status_uft'].isin(filtro_status)
-        #
-        # valor = predio
-        # valor = list(dict.fromkeys(valor))  # removendo valores duplicados
-        # valor = sorted(valor)  # ordenando lista de string
-        # filtro_predio = col5.multiselect('Filtrar por localização:', valor)
-        # if (len(filtro_predio) > 0):
-        #     if (len(filtrar) > 0):
-        #         filtrar = filtrar & dados['predio'].isin(filtro_predio)
-        #     else:
-        #         filtrar = dados['predio'].isin(filtro_predio)
 
         btn1 = st.form_submit_button('Filtrar')
-        if (len(filtrar) == 0):
-            filtrar = titulos
 
     if (btn1 == True):
-        # dados=df[titulos]
-        # filtrar=dados[titulo_coluna].isin([filtro])
-        # print(filtrar)
-        # if(len(filtrar)>0):
-        if (texto != '' and coluna_busca != ''):
-            dad1 = dados[filtrar][dados[coluna_busca].str.contains(texto, na=False)]
-            # dad2 = dados[filtrar][dados['Carimbo de data/hora'].str.contains(texto, na=False)]
-            dad = dad1
-        else:
-            dad = dados[filtrar]
+        for dic in df.index:
+            if texto in df[coluna_busca][dic]:
+                # print(df['Código da UFT'][dic])
+                data_hora.append(df['data_hora'][dic])
+                nome_solicitante.append(df['nome_solicitante'][dic])
+                area_manutencao.append(df['area_manutencao'][dic])
+                tipo_solicitacao.append(df['tipo_solicitacao'][dic])
+                descricao_sucinta.append(df['descricao_sucinta'][dic])
+                predio.append(df['predio'][dic])
+                sala.append(df['sala'][dic])
+                data_solicitacao.append(df['data_solicitacao'][dic])
+                telefone.append(df['telefone'][dic])
+                urg_uft.append(df['urg_uft'][dic])
+                status_uft.append(df['status_uft'][dic])
+                data_status.append(df['data_status'][dic])
+                alerta_coluna.append(df['alerta_coluna'][dic])
+                pontos.append(df['pontos'][dic])
+                ordem_servico.append(df['ordem_servico'][dic])
+                obs_usuario.append(df['obs_usuario'][dic])
+                obs_interna.append(df['obs_interna'][dic])
+                id_uft.append(df['id_uft'][dic])
+                email.append(df['email'][dic])
+                
+        dados = df[titulos].astype(str).fillna('')
+        dad = dados
     try:
         st.markdown(
             alerta + f'<Strong><i>Número de OS com o filtro correspondente: {len(dad[dad['area_manutencao'].str.strip() != ''])}.</i></Strong></p>',
             unsafe_allow_html=True)
+        print(dad)
         st.dataframe(dad)  # dados[filtrar].head()
         df_xlsx = to_excel(dad)
         st.download_button(label='📥 Baixar Resultado do Filtro em Excel', data=df_xlsx,
