@@ -163,12 +163,9 @@ ip_script = """
 """
 
 # Injeta o script no Streamlit
-components.html(ip_script)
+#components.html(ip_script)
 # Lê o valor do IP enviado via formulário
-ip_usuario = get_user_ip()
-if 'ip_input' in st.experimental_get_query_params():
-    ip = st.experimental_get_query_params()['ip_input'][0]
-    ip_usuario = ip
+ip_usuario = k #get_user_ip()
 
 def registra_historico(codigo,status,obsusuario,obsinterna,ip_usuario):
     chave = '1zqIL_TnTewKwPkTTWtLlrsGBQnl9r6ZN6GSrjromXq4'
