@@ -403,7 +403,7 @@ if (pg == 'Edição individual'):
 
             botao = st.form_submit_button('Registrar')
 
-        if (botao == True and (s in senhas)):
+        if ((botao == True) and (s in senhas)):
             if (sheet.cell(celula.row, 21).value == id_uft[n] and sheet.cell(celula.row, 1).value != ''):
                 with st.spinner('Registrando dados...Aguarde!'):
                     st.markdown(infor + '<b>Registro efetuado!</b></p>', unsafe_allow_html=True)
@@ -426,7 +426,7 @@ if (pg == 'Edição individual'):
                     registra_historico(selecionado, status_reg, obs_usr, obs_int, s)
             else:
                 st.error('Código de OS inválido!')
-        elif (botao == True and s != a):
+        elif (botao == True and s not in senhas):
             st.markdown(alerta + '<b>Senha incorreta!</b></p>', unsafe_allow_html=True)
     else:
         st.markdown(infor + '<b>Não há itens na condição ' + pg + '</b></p>', unsafe_allow_html=True)
@@ -576,7 +576,7 @@ elif pg == 'Edição em Lote':
                 st.error('Remova as OS com números repetidos!')
             elif (efetuado == 1 and repeticao == 1):
                 st.error('Dados parcialmente cadastrados! As OS com números repetidos não foram registradas!')
-        elif (botao == True and s != a):
+        elif (botao == True and s not in senhas):
             st.markdown(alerta + '<b>Senha incorreta!</b></p>', unsafe_allow_html=True)
     else:
         st.markdown(infor + '<b>Não há itens na condição ' + pg + '</b></p>', unsafe_allow_html=True)
