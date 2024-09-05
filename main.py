@@ -318,7 +318,7 @@ if (pg == 'Edição individual'):
             botao = st.form_submit_button('Registrar')
 
         if (botao == True and s == a):
-            if (sheet.cell(celula.row, 21).value == id_uft[n] and sheet.cell(celula.row, 11).value == ordem_servico[n]):
+            if (sheet.cell(celula.row, 21).value == id_uft[n] and sheet.cell(celula.row, 1).value != ''):
                 with st.spinner('Registrando dados...Aguarde!'):
                     st.markdown(infor + '<b>Registro efetuado!</b></p>', unsafe_allow_html=True)
 
