@@ -301,7 +301,7 @@ if (pg == 'Edição individual'):
 
         with st.form(key='my_form'):
             tipo_reg = st.selectbox('Selecione o tipo de solicitação:', tipos[areas[i_area]], index=i_tipo)
-            n_os = st.text_area('Nº de OS:', value=ordem_servico[n])
+            n_os = st.text_input('Nº de OS:', value=ordem_servico[n])
             status_reg = st.selectbox('Selecione o status:', status_todos, index=indice)
             obs_usr = st.text_area('Observação para o Usuário:', value=obs_usuario[n])
             obs_int = st.text_area('Observação Interna:', value=obs_interna[n])
