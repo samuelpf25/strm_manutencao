@@ -6,6 +6,7 @@ import pandas as pd
 from datetime import date, datetime
 from io import BytesIO
 import pytz
+import altair as alt
 
 # from pyxlsb import open_workbook as open_xlsb
 # from awesome_table import AwesomeTable
@@ -531,6 +532,13 @@ elif pg == 'Alertas':
     st.bar_chart(chart_data1)
     st.bar_chart(chart_data2)
     st.bar_chart(chart_data3)
+    c = (
+        alt.Chart(dados_hist)
+        .mark_circle()
+        .encode(x="area_manutencao", y="status_uft", size="predio", tooltip=["area_manutencao", "status_uft", "predio"])
+    )
+
+    st.altair_chart(c, use_container_width=True)
 
 elif pg == 'Consulta':
 
@@ -684,17 +692,17 @@ elif pg == 'Consulta':
     else:
         st.dataframe(df[titulos])
 
-    try:
-        chart_data1 = df[titulos].groupby(['area_manutencao', 'status_uft']).size().unstack(fill_value=0)
-        chart_data2 = df[titulos].groupby(['area_manutencao', 'tipo_solicitacao']).size().unstack(fill_value=0)
-        chart_data3 = df[titulos].groupby(['area_manutencao', 'predio']).size().unstack(fill_value=0)
-
-        # Exibir gráfico de barras
-        st.bar_chart(chart_data1)
-        st.bar_chart(chart_data2)
-        st.bar_chart(chart_data3)
-    except:
-        pass
+    # try:
+    #     chart_data1 = dad.groupby(['area_manutencao', 'status_uft']).size().unstack(fill_value=0)
+    #     chart_data2 = dad.groupby(['area_manutencao', 'tipo_solicitacao']).size().unstack(fill_value=0)
+    #     chart_data3 = dad.groupby(['area_manutencao', 'predio']).size().unstack(fill_value=0)
+    #
+    #     # Exibir gráfico de barras
+    #     st.bar_chart(chart_data1)
+    #     st.bar_chart(chart_data2)
+    #     st.bar_chart(chart_data3)
+    # except:
+    #     pass
 
 
 
