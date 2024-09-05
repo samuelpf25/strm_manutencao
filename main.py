@@ -236,7 +236,9 @@ if (pg == 'Edição individual'):
             alerta + f'<Strong><i>Foram encontradas {len(data_hora)} Ordens de Serviço com este mesmo número, selecione abaixo a solicitação correspondente:</i></Strong></p>',
             unsafe_allow_html=True)
     selecionado = st.selectbox('Nº da UFT:', id_uft)
-
+    st.markdown(
+        alerta + f'<Strong><i>Foram encontradas {len(id_uft)} solicitações com este filtro.</i></Strong></p>',
+        unsafe_allow_html=True)
     if (len(ordem_servico) > 0):
         n = id_uft.index(selecionado)
 
