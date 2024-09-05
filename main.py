@@ -256,7 +256,7 @@ if (pg == 'Edição individual'):
                 id_uft.append(df['id_uft'][dic])
                 email.append(df['email'][dic])
                 foto_video.append(df['foto_video'][dic])
-                
+
         else:
 
             if df['status_uft'][dic] in filtrando and df['area_manutencao'][dic] != '':
@@ -280,7 +280,7 @@ if (pg == 'Edição individual'):
                 id_uft.append(df['id_uft'][dic])
                 email.append(df['email'][dic])
                 foto_video.append(df['foto_video'][dic])
-                
+
     if len(data_hora) > 1 and (filtra_os != ''):
         st.markdown(
             alerta + f'<Strong><i>Foram encontradas {len(data_hora)} Ordens de Serviço com este mesmo número, selecione abaixo a solicitação correspondente:</i></Strong></p>',
@@ -305,18 +305,21 @@ if (pg == 'Edição individual'):
         st.markdown(padrao + '<b>E-mail:</b>' + email[n] + '</p>', unsafe_allow_html=True)
         cont=0
         dir = ''
-        for link in foto_video[n].split(', '):
-           link1 = link.split('id=')
-           id = link1[1]
-           url ='https://drive.google.com/file/d/' + id + '/preview' #'https://drive.google.com/uc?export=view&id=' + id #
-           print(url)
-           dir+='<iframe src="'+url+'"></iframe><br>'
-
-           #components.iframe(url)
-           #st.image(url)
-           #htm = '<img src="'+url+'" alt="Foto" width="100" height="100"><br>'
-           #components.html(htm + '<br>Foto ' + str(cont))
-           cont += 1
+        try:
+            for link in foto_video[n].split(', '):
+               link1 = link.split('id=')
+               id = link1[1]
+               url ='https://drive.google.com/file/d/' + id + '/preview' #'https://drive.google.com/uc?export=view&id=' + id #
+               print(url)
+               dir+='<iframe src="'+url+'"></iframe><br>'
+    
+               #components.iframe(url)
+               #st.image(url)
+               #htm = '<img src="'+url+'" alt="Foto" width="100" height="100"><br>'
+               #components.html(htm + '<br>Foto ' + str(cont))
+               cont += 1
+        except:
+            pass
         st.write(dir, unsafe_allow_html=True)
 
         with st.expander("Histórico da OS"):
