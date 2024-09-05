@@ -658,18 +658,7 @@ elif pg == 'Consulta':
         btn1 = st.form_submit_button('Filtrar')
         if (len(filtrar) == 0):
             filtrar = titulos
-            
-        try:
-            chart_data1 = dad.groupby(['area_manutencao', 'status_uft']).size().unstack(fill_value=0)
-            chart_data2 = dad.groupby(['area_manutencao', 'tipo_solicitacao']).size().unstack(fill_value=0)
-            chart_data3 = dad.groupby(['area_manutencao', 'predio']).size().unstack(fill_value=0)
 
-            # Exibir gráfico de barras
-            st.bar_chart(chart_data1)
-            st.bar_chart(chart_data2)
-            st.bar_chart(chart_data3)
-        except:
-            pass
     if (btn1 == True):
         # dados=df[titulos]
         # filtrar=dados[titulo_coluna].isin([filtro])
@@ -694,6 +683,18 @@ elif pg == 'Consulta':
         #    st.dataframe(df[titulos])
     else:
         st.dataframe(df[titulos])
+
+    try:
+        chart_data1 = df[titulos].groupby(['area_manutencao', 'status_uft']).size().unstack(fill_value=0)
+        chart_data2 = df[titulos].groupby(['area_manutencao', 'tipo_solicitacao']).size().unstack(fill_value=0)
+        chart_data3 = df[titulos].groupby(['area_manutencao', 'predio']).size().unstack(fill_value=0)
+
+        # Exibir gráfico de barras
+        st.bar_chart(chart_data1)
+        st.bar_chart(chart_data2)
+        st.bar_chart(chart_data3)
+    except:
+        pass
 
 
 
