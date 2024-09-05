@@ -765,11 +765,15 @@ elif pg == 'Consulta':
     st.markdown(cabecalho, unsafe_allow_html=True)
     st.subheader(pg)
 
+    import pandas as pd
+    import streamlit as st
+
+    # Converte todas as colunas para strings para evitar erros de conversão
     titulos = ['data_hora', 'nome_solicitante', 'area_manutencao', 'tipo_solicitacao', 'descricao_sucinta',
                'sala', 'data_solicitacao', 'telefone', 'urg_uft', 'status_uft', 'data_status',
                'alerta_coluna', 'pontos', 'ordem_servico', 'obs_usuario', 'obs_interna', 'predio', 'sala', 'email']
 
-    dados = df[titulos].astype(str).fillna('')  # Garantindo que todos os dados sejam strings e sem valores nulos
+    dados = df[titulos].astype(str).fillna('')  # Garante que todos os dados sejam strings
     dad = dados
 
     with st.form(key='form1'):
@@ -783,26 +787,27 @@ elif pg == 'Consulta':
 
         btn1 = st.form_submit_button('Filtrar')
 
-    # Aplicação do filtro após o botão ser clicado
     if btn1:
-        # Inicialmente, nenhum filtro é aplicado
         filtros = [True] * len(dados)
 
-        # Aplicar filtro de prédio, se selecionado
+        # Filtro de prédio
         if len(filtro_predio) > 0:
             filtros = filtros & dados['predio'].isin(filtro_predio)
 
-        # Aplicar filtro de texto na coluna selecionada, se houver texto
+        # Filtro de texto na coluna selecionada
         if texto != '' and coluna_busca != '':
             filtros = filtros & dados[coluna_busca].str.contains(texto, case=False, na=False)
 
-        # Aplicar os filtros ao DataFrame
+        # Aplica os filtros
         dad_filtrado = dados[filtros]
 
-        # Garantindo que todos os dados do DataFrame filtrado sejam strings
+        # Conversão para strings novamente para garantir compatibilidade
         dad_filtrado = dad_filtrado.astype(str)
 
-        # Exibir DataFrame filtrado
+        # Verifica as primeiras linhas do DataFrame para garantir que está correto
+        st.write(dad_filtrado.head())
+
+        # Exibe o DataFrame filtrado
         st.dataframe(dad_filtrado)
 
     try:
