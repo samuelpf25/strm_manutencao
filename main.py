@@ -120,6 +120,17 @@ cabecalho = '<div id="logo" class="span8 small"><h1>CONTROLE DE ORDENS DE SERVI�
 
 # 3) FUNÇÕES GLOBAIS #############################################################################################
 
+
+def get_user_ip():
+    try:
+        # Faz uma requisição para um serviço de IP
+        response = requests.get("https://httpbin.org/ip")
+        ip = response.json()['origin']
+        return ip
+    except Exception as e:
+        return f"..."
+
+
 # JavaScript to capture IP
 ip_script = """
     <script>
@@ -138,7 +149,7 @@ components.html(ip_script)
 # Retrieve the IP from the injected HTML
 ip = st.session_state.get('ip', '')
 
-ip_usuario = ip
+ip_usuario = get_user_ip()
 def registra_historico(codigo,status,obsusuario,obsinterna,ip_usuario):
     chave = '1zqIL_TnTewKwPkTTWtLlrsGBQnl9r6ZN6GSrjromXq4'
     aba = 'historico'
