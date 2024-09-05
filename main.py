@@ -140,8 +140,8 @@ ip_script = """
             document.body.innerHTML += '<p id="ip">' + data.ip + '</p>';
         });
     </script>
-    <p>Obtendo IP...</p>
 """
+st.markdown(ip_script)
 
 # Inject the script into the Streamlit app
 components.html(ip_script)
@@ -150,6 +150,8 @@ components.html(ip_script)
 ip = st.session_state.get('ip', '')
 
 ip_usuario = get_user_ip()
+if (ip!=""):
+    ip_usuario=ip_script
 def registra_historico(codigo,status,obsusuario,obsinterna,ip_usuario):
     chave = '1zqIL_TnTewKwPkTTWtLlrsGBQnl9r6ZN6GSrjromXq4'
     aba = 'historico'
