@@ -5,11 +5,15 @@ import streamlit as st
 import pandas as pd
 from datetime import date, datetime
 from io import BytesIO
+import pytz
+
 # from pyxlsb import open_workbook as open_xlsb
 # from awesome_table import AwesomeTable
 # from awesome_table.column import (Column, ColumnDType)
 from streamlit_apexjs import st_apexcharts
 
+
+fuso_horario_sp = pytz.timezone('America/Sao_Paulo')
 # ocultar menu
 hide_streamlit_style = """
 <meta http-equiv="Content-Language" content="pt-br">
@@ -126,7 +130,7 @@ def registra_historico(codigo,status,obsusuario,obsinterna):
     sheet2, dados2, df2 = conexao(aba=aba, chave=chave)
     celula = sheet2.find("**vazio**")
 
-    data_hoje = datetime.today()
+    data_hoje = datetime.now(fuso_horario_sp)
     data_reg = data_hoje.strftime('%d/%m/%Y')
     hora_reg = data_hoje.strftime('%H:%M:%S')
     sheet2.update_acell('A' + str(celula.row), data_reg)
@@ -324,7 +328,7 @@ if (pg == 'Edição individual'):
                     sheet.update_acell('N' + str(celula.row), obs_usr)  # obs_email
                     sheet.update_acell('O' + str(celula.row), obs_int)  # obs_interna
 
-                    data_hoje = datetime.today()
+                    data_hoje = datetime.now(fuso_horario_sp)
                     data_reg = data_hoje.strftime('%d/%m/%Y')
                     sheet.update_acell('P' + str(celula.row), data_reg)
                     sheet.update_acell('X' + str(celula.row), '')
@@ -455,7 +459,7 @@ elif pg == 'Edição em Lote':
 
                         if (status_reg != ''):
                             sheet.update_acell('M' + str(celula.row), status_reg)
-                            data_hoje = datetime.today()
+                            data_hoje = datetime.now(fuso_horario_sp)
                             data_reg = data_hoje.strftime('%d/%m/%Y')
                             sheet.update_acell('P' + str(celula.row), data_reg)
                             with st.spinner('Registrando histórico..Aguarde!'):
