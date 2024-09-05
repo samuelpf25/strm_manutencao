@@ -6,7 +6,7 @@ import pandas as pd
 from datetime import date, datetime
 from io import BytesIO
 import pytz
-
+import matplotlib.pyplot as plt
 
 fuso_horario_sp = pytz.timezone('America/Sao_Paulo')
 # ocultar menu
@@ -691,6 +691,26 @@ elif pg == 'Consulta':
         st.bar_chart(chart_data1)
         st.bar_chart(chart_data2)
         st.bar_chart(chart_data3)
+
+        # Supondo que df2 já tenha sido carregado
+        # Agrupar por area_manutencao e contar o total de OS por área
+        chart_data = dad.groupby('area_manutencao').size()
+
+        # Rótulos e tamanhos para o gráfico de pizza
+        labels = chart_data.index
+        sizes = chart_data.values
+
+        # Explode apenas a fatia maior (opcional, aqui explodimos a maior área)
+        explode = [0.1 if size == max(sizes) else 0 for size in sizes]
+
+        # Criar o gráfico de pizza
+        fig1, ax1 = plt.subplots()
+        ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
+                shadow=True, startangle=90)
+        ax1.axis('equal')  # Para garantir que o gráfico fique em formato de círculo.
+
+        # Exibir o gráfico no Streamlit
+        st.pyplot(fig1)
     except:
         pass
 
