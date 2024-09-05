@@ -523,10 +523,26 @@ elif pg == 'Alertas':
         unsafe_allow_html=True)
     st.dataframe(dad_h.astype(str))
 
+    # Remover valores vazios
+    df_filtered = df2[df2['area_manutencao'].str.strip() != '']
+    df_filtered = df_filtered[df_filtered['status_uft'].str.strip() != '']
 
-    chart_data1 = df2.groupby(['area_manutencao', 'status_uft']).size().unstack(fill_value=0)
-    chart_data2 = df2.groupby(['area_manutencao', 'tipo_solicitacao']).size().unstack(fill_value=0)
-    chart_data3 = df2.groupby(['area_manutencao', 'predio']).size().unstack(fill_value=0)
+    # Agregar dados
+    chart_data1 = df_filtered.groupby(['area_manutencao', 'status_uft']).size().unstack(fill_value=0)
+
+    # Remover valores vazios
+    df_filtered = df2[df2['area_manutencao'].str.strip() != '']
+    df_filtered = df_filtered[df_filtered['tipo_solicitacao'].str.strip() != '']
+
+    # Agregar dados
+    chart_data2 = df_filtered.groupby(['area_manutencao', 'tipo_solicitacao']).size().unstack(fill_value=0)
+
+    # Remover valores vazios
+    df_filtered = df2[df2['area_manutencao'].str.strip() != '']
+    df_filtered = df_filtered[df_filtered['predio'].str.strip() != '']
+
+    # Agregar dados
+    chart_data3 = df_filtered.groupby(['area_manutencao', 'predio']).size().unstack(fill_value=0)
 
     # Exibir gráfico de barras
     st.write("Área de Manutenção x Status")
@@ -766,9 +782,26 @@ elif pg == 'Consulta':
 
     try:
         df2 = dad
-        chart_data1 = df2.groupby(['area_manutencao', 'status_uft']).size().unstack(fill_value=0)
-        chart_data2 = df2.groupby(['area_manutencao', 'tipo_solicitacao']).size().unstack(fill_value=0)
-        chart_data3 = df2.groupby(['area_manutencao', 'predio']).size().unstack(fill_value=0)
+        # Remover valores vazios
+        df_filtered = df2[df2['area_manutencao'].str.strip() != '']
+        df_filtered = df_filtered[df_filtered['status_uft'].str.strip() != '']
+
+        # Agregar dados
+        chart_data1 = df_filtered.groupby(['area_manutencao', 'status_uft']).size().unstack(fill_value=0)
+
+        # Remover valores vazios
+        df_filtered = df2[df2['area_manutencao'].str.strip() != '']
+        df_filtered = df_filtered[df_filtered['tipo_solicitacao'].str.strip() != '']
+
+        # Agregar dados
+        chart_data2 = df_filtered.groupby(['area_manutencao', 'tipo_solicitacao']).size().unstack(fill_value=0)
+
+        # Remover valores vazios
+        df_filtered = df2[df2['area_manutencao'].str.strip() != '']
+        df_filtered = df_filtered[df_filtered['predio'].str.strip() != '']
+
+        # Agregar dados
+        chart_data3 = df_filtered.groupby(['area_manutencao', 'predio']).size().unstack(fill_value=0)
 
         # Exibir gráfico de barras
         st.write("Área de Manutenção x Status")
