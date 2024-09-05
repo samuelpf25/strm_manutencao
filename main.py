@@ -44,7 +44,7 @@ cliente = gspread.authorize(creds)
 
 sheet = cliente.open_by_url(
     'https://docs.google.com/spreadsheets/d/1zqIL_TnTewKwPkTTWtLlrsGBQnl9r6ZN6GSrjromXq4/edit?gid=0#gid=0').get_worksheet(
-    0)
+    0)  # https://docs.google.com/spreadsheets/d/1PhJXFOKdEAjcILQCDyJ-couaDM6EWBUXM1GVh-3gZWM/edit#gid=96577098
 
 dados = sheet.get_all_records()  # Get a list of all records
 
@@ -94,6 +94,7 @@ obs_usuario = []
 obs_interna = []
 sala = []
 email=[]
+id_uft=[]
 
 
 horas = ['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30',
@@ -104,7 +105,7 @@ padrao = '<p style="font-family:Courier; color:Blue; font-size: 16px;">'
 infor = '<p style="font-family:Courier; color:Green; font-size: 16px;">'
 alerta = '<p style="font-family:Courier; color:Red; font-size: 17px;">'
 titulo = '<p style="font-family:Courier; color:Blue; font-size: 20px;">'
-cabecalho = '<div id="logo" class="span8 small"><h1>CONTROLE DE ORDENS DE SERVIÇO - UFT</h1></div>'
+cabecalho = '<div id="logo" class="span8 small"><h1>CONTROLE DE ORDENS DE SERVIÇO - UFES</h1></div>'
 
 
 # @st.cache
@@ -118,6 +119,22 @@ cabecalho = '<div id="logo" class="span8 small"><h1>CONTROLE DE ORDENS DE SERVI�
 
 # 3) FUNÇÕES GLOBAIS #############################################################################################
 
+
+def registra_historico(codigo,status,obsusuario,obsinterna):
+    chave = '1zqIL_TnTewKwPkTTWtLlrsGBQnl9r6ZN6GSrjromXq4'
+    aba = 'historico'
+    sheet2, dados2, df2 = conexao(aba=aba, chave=chave)
+    celula = sheet2.find("**vazio**")
+
+    data_hoje = datetime.today()
+    data_reg = data_hoje.strftime('%d/%m/%Y')
+    hora_reg = data_hoje.strftime('%H:%M:%S')
+    sheet2.update_acell('A' + str(celula.row), data_reg)
+    sheet2.update_acell('B' + str(celula.row), hora_reg)
+    sheet2.update_acell('C' + str(celula.row), codigo)
+    sheet2.update_acell('D' + str(celula.row), status)
+    sheet2.update_acell('E' + str(celula.row), obsusuario)
+    sheet2.update_acell('F' + str(celula.row), obsinterna)
 
 def next_available_row(worksheet):
     str_list = list(filter(None, worksheet.col_values(1)))
@@ -145,9 +162,9 @@ a = k
 # pg=st.sidebar.selectbox('Selecione a Página',['Solicitações em Aberto','Solicitações a Finalizar','Consulta'])
 pg = st.sidebar.radio('', ['Edição individual', 'Edição em Lote', 'Consulta', 'Prioridades do dia'])
 status = ['', 'Todas Ativas', 'OS Aberta', 'Pendente de Material', 'Pendente Solicitante', 'Pendente Outros',
-          'Atendida', 'Material Solicitado', 'Material Disponível']
+          'Atendida', 'Material Solicitado', 'Material Disponível', 'Indeferido']
 status_todos = ['', 'OS Aberta', 'Pendente de Material', 'Pendente Solicitante', 'Pendente Outros', 'Atendida',
-                'Material Solicitado', 'Material Disponível']
+                'Material Solicitado', 'Material Disponível', 'Indeferido']
 if (pg == 'Edição individual'):
     # PÁGINA EDIÇÃO INDIVIDUAL ******************************************************************************************
     st.markdown(cabecalho, unsafe_allow_html=True)
@@ -184,7 +201,7 @@ if (pg == 'Edição individual'):
                 ordem_servico.append(df['ordem_servico'][dic])
                 obs_usuario.append(df['obs_usuario'][dic])
                 obs_interna.append(df['obs_interna'][dic])
-                sala.append(df['sala'][dic])
+                id_uft.append(df['id_uft'][dic])
                 email.append(df['email'][dic])
 
         else:
@@ -207,34 +224,31 @@ if (pg == 'Edição individual'):
                 ordem_servico.append(df['ordem_servico'][dic])
                 obs_usuario.append(df['obs_usuario'][dic])
                 obs_interna.append(df['obs_interna'][dic])
-                sala.append(df['sala'][dic])
+                id_uft.append(df['id_uft'][dic])
                 email.append(df['email'][dic])
 
     if len(data_hora) > 1 and (filtra_os != ''):
         st.markdown(
             alerta + f'<Strong><i>Foram encontradas {len(data_hora)} Ordens de Serviço com este mesmo número, selecione abaixo a solicitação correspondente:</i></Strong></p>',
             unsafe_allow_html=True)
-    selecionado = st.selectbox('Nº da OS:', ordem_servico)
+    selecionado = st.selectbox('Nº da UFT:', id_uft)
 
     if (len(ordem_servico) > 0):
-        n = ordem_servico.index(selecionado)
+        n = id_uft.index(selecionado)
 
         # apresentar dados da solicitação
         st.markdown(titulo + '<b>Dados da Solicitação</b></p>', unsafe_allow_html=True)
         # st.text('<p style="font-family:Courier; color:Blue; font-size: 20px;">Nome: '+ nome[n]+'</p>',unsafe_allow_html=True)
 
         st.markdown(padrao + '<b>Nome</b>: ' + str(nome_solicitante[n]) + '</p>', unsafe_allow_html=True)
-        # st.markdown(padrao + '<b>Área</b>: ' + str(area_manutencao[n]) + '</p>', unsafe_allow_html=True)
-        # st.markdown(padrao + '<b>Tipo de solicitação</b>: ' + str(tipo_solicitacao[n]) + '</p>', unsafe_allow_html=True)
-        st.markdown(padrao + '<b>predio</b>: ' + str(predio[n]) + '</p>', unsafe_allow_html=True)
+        st.markdown(padrao + '<b>Prédio</b>: ' + str(predio[n]) + '</p>', unsafe_allow_html=True)
+        st.markdown(padrao + '<b>Sala</b>: ' + sala[n] + '</p>', unsafe_allow_html=True)
         st.markdown(padrao + '<b>Data da Solicitação</b>: ' + str(data_hora[n]) + '</p>', unsafe_allow_html=True)
-        st.markdown(alerta + '<b>Descrição</b>: ' + str(descricao_sucinta[n]) + '</p>', unsafe_allow_html=True)
-        st.markdown(padrao + '<b>Informações adicionais</b>: ' + sala[n] + '</p>', unsafe_allow_html=True)
-        st.markdown(padrao + '<b>Urgência UFT</b>: ' + telefone[n] + '</p>', unsafe_allow_html=True)
-        st.markdown(padrao + '<b>Posto / Demanda</b>: ' + sala[n] + '</p>', unsafe_allow_html=True)
-        st.markdown(padrao + 'Status UFT: ' + email[n] + '</p>', unsafe_allow_html=True)
+        st.markdown(padrao + '<b>Descrição</b>: ' + str(descricao_sucinta[n]) + '</p>', unsafe_allow_html=True)
+        st.markdown(padrao + '<b>Telefone</b>: ' + telefone[n] + '</p>', unsafe_allow_html=True)
+        st.markdown(padrao + '<b>E-mail:</b>' + email[n] + '</p>', unsafe_allow_html=True)
 
-        celula = sheet.find(str(ordem_servico[n]))
+        celula = sheet.find(str(id_uft[n]))
         # procurando status equivalente na lista
         indice = 0
         cont = 0
@@ -287,32 +301,36 @@ if (pg == 'Edição individual'):
 
         with st.form(key='my_form'):
             tipo_reg = st.selectbox('Selecione o tipo de solicitação:', tipos[areas[i_area]], index=i_tipo)
+            n_os = st.text_area('Nº de OS:', value=ordem_servico[n])
             status_reg = st.selectbox('Selecione o status:', status_todos, index=indice)
             obs_usr = st.text_area('Observação para o Usuário:', value=obs_usuario[n])
             obs_int = st.text_area('Observação Interna:', value=obs_interna[n])
-            urg_m = st.selectbox('Urgência Multi:', ['Baixa', 'Média', 'Alta'], index=i_urg)
+            urg_m = st.selectbox('Urgência UFT:', ['Baixa', 'Média', 'Alta'], index=i_urg)
 
             s = st.text_input("Senha:", value="", type="password")  # , type="password"
 
             botao = st.form_submit_button('Registrar')
 
         if (botao == True and s == a):
-            if (sheet.cell(celula.row, 9).value == ordem_servico[n] and sheet.cell(celula.row, 9).value != ''):
+            if (sheet.cell(celula.row, 21).value == ordem_servico[n] and sheet.cell(celula.row, 1).value != ''):
                 with st.spinner('Registrando dados...Aguarde!'):
                     st.markdown(infor + '<b>Registro efetuado!</b></p>', unsafe_allow_html=True)
 
-                    sheet.update_acell('K' + str(celula.row), urg_m)  # Status
-                    sheet.update_acell('L' + str(celula.row), status_reg)  # os
-                    sheet.update_acell('C' + str(celula.row), area_reg)
-                    sheet.update_acell('D' + str(celula.row), tipo_reg)
-                    sheet.update_acell('M' + str(celula.row), obs_usr)  # obs_email
-                    sheet.update_acell('N' + str(celula.row), obs_int)  # obs_interna
+                    sheet.update_acell('K' + str(celula.row), n_os)
+                    sheet.update_acell('L' + str(celula.row), urg_m)
+                    sheet.update_acell('M' + str(celula.row), status_reg)
+                    sheet.update_acell('D' + str(celula.row), area_reg)
+                    sheet.update_acell('E' + str(celula.row), tipo_reg)
+                    sheet.update_acell('N' + str(celula.row), obs_usr)  # obs_email
+                    sheet.update_acell('O' + str(celula.row), obs_int)  # obs_interna
 
                     data_hoje = datetime.today()
                     data_reg = data_hoje.strftime('%d/%m/%Y')
-                    sheet.update_acell('O' + str(celula.row), data_reg)
-
+                    sheet.update_acell('P' + str(celula.row), data_reg)
+                    sheet.update_acell('X' + str(celula.row), '')
                 st.success('Registro efetuado!')
+                with st.spinner('Registrando histórico..Aguarde!'):
+                    registra_historico(selecionado, status_reg, obs_usr, obs_int)
             else:
                 st.error('Código de OS inválido!')
         elif (botao == True and s != a):
@@ -364,7 +382,8 @@ elif pg == 'Edição em Lote':
                 ordem_servico.append(df['ordem_servico'][dic])
                 obs_usuario.append(df['obs_usuario'][dic])
                 obs_interna.append(df['obs_interna'][dic])
-                sala.append(df['sala'][dic])
+                id_uft.append(df['id_uft'][dic])
+                email.append(df['email'][dic])
         else:
             if df['status_uft'][dic] in filtrando and df['area_manutencao'][dic] != '':
                 # print(df['Código da UFT'][dic])
@@ -385,7 +404,8 @@ elif pg == 'Edição em Lote':
                 ordem_servico.append(df['ordem_servico'][dic])
                 obs_usuario.append(df['obs_usuario'][dic])
                 obs_interna.append(df['obs_interna'][dic])
-                sala.append(df['sala'][dic])
+                id_uft.append(df['id_uft'][dic])
+                email.append(df['email'][dic])
     # if len(n_solicitacao)>1:
     #    st.markdown(alerta + f'<Strong><i>Foram encontradas {len(n_solicitacao)} Ordens de Serviço com este mesmo número, exclua da lista abaixo a solicitação que não for correspondente a que queira editar:</i></Strong></p>',unsafe_allow_html=True)
 
@@ -415,7 +435,7 @@ elif pg == 'Edição em Lote':
             status_reg = st.selectbox('Selecione o status:', status_todos)
             obs_usr = st.text_area('Observação para o Usuário:', value='')
             obs_int = st.text_area('Observação Interna:', value='')
-            urg_m = st.selectbox('Urgência Multi:', ['Baixa', 'Média', 'Alta'])
+            urg_m = st.selectbox('Urgência UFT:', ['Baixa', 'Média', 'Alta'])
 
             s = st.text_input("Senha:", value="", type="password")  # , type="password"
             botao = st.form_submit_button('Registrar')
@@ -428,25 +448,26 @@ elif pg == 'Edição em Lote':
                     # print(sheet.cell(celula.row, 20).value)
                     # print(repeticao)
                     # print(selecionado_i)
-                    if (sheet.cell(celula.row, 9).value == selecionado_i and sheet.cell(celula.row,
-                                                                                        9).value != '' and repeticao == 0):
+                    if (sheet.cell(celula.row, 11).value == selecionado_i and sheet.cell(celula.row, 1).value != '' and repeticao == 0):
                         efetuado = 1
                         if urg_m != '':
-                            sheet.update_acell('K' + str(celula.row), urg_m)
+                            sheet.update_acell('L' + str(celula.row), urg_m)
 
                         if (status_reg != ''):
-                            sheet.update_acell('L' + str(celula.row), status_reg)
+                            sheet.update_acell('M' + str(celula.row), status_reg)
                             data_hoje = datetime.today()
                             data_reg = data_hoje.strftime('%d/%m/%Y')
-                            sheet.update_acell('O' + str(celula.row), data_reg)
+                            sheet.update_acell('P' + str(celula.row), data_reg)
+                            with st.spinner('Registrando histórico..Aguarde!'):
+                                registra_historico(selecionado_i, status_reg, obs_usr, obs_int)
 
                         # sheet.update_acell('R' + str(celula.row), '')  # apagar Sim para enviar e-mail
                         if (obs_usr != ''):
                             # sheet.update_acell('S' + str(celula.row), obsemail)  # obs_email
-                            sheet.update_acell('M' + str(celula.row), obs_usr)
+                            sheet.update_acell('MN' + str(celula.row), obs_usr)
                         if (obs_int != ''):
                             # sheet.update_acell('AA' + str(celula.row), obsinterna)  # obs_interna
-                            sheet.update_acell('N' + str(celula.row), obs_int)  # obs_interna
+                            sheet.update_acell('O' + str(celula.row), obs_int)  # obs_interna
 
                             # st.markdown(infor+'<b>Registro efetuado!</b></p>',unsafe_allow_html=True)
             if (efetuado == 1):
@@ -513,7 +534,8 @@ elif pg == 'Consulta':
             ordem_servico.append(df['ordem_servico'][dic])
             obs_usuario.append(df['obs_usuario'][dic])
             obs_interna.append(df['obs_interna'][dic])
-            obs_interna.append(df['email'][dic])
+            id_uft.append(df['id_uft'][dic])
+            email.append(df['email'][dic])
 
     st.markdown(cabecalho, unsafe_allow_html=True)
     st.subheader(pg)
@@ -633,7 +655,7 @@ elif pg == 'Prioridades do dia':
     st.markdown(cabecalho, unsafe_allow_html=True)
     st.subheader(pg)
 
-    chave = '1uS7_GS6KR9ax4tOhAeEzhpnlPJX6_13m0CCD_9QWbKk'
+    chave = '1zqIL_TnTewKwPkTTWtLlrsGBQnl9r6ZN6GSrjromXq4'
     aba = st.selectbox('Selecione a área', areas)
     sheet2, dados2, df2 = conexao(aba=aba, chave=chave)
     st.dataframe(df2)
