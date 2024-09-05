@@ -676,7 +676,7 @@ elif pg == 'Consulta':
         col5, col6 = st.columns(2)
         filtrar = []
 
-        dados = df[titulos]
+        dados = df[titulos].astype(str)
         dad = dados
         valor = data_solicitacao
         valor = list(dict.fromkeys(valor))  # removendo valores duplicados
