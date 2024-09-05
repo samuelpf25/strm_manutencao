@@ -529,8 +529,13 @@ elif pg == 'Alertas':
     chart_data3 = df2.groupby(['area_manutencao', 'predio']).size().unstack(fill_value=0)
 
     # Exibir gráfico de barras
+    st.write("Área de Manutenção x Status")
     st.bar_chart(chart_data1)
+
+    st.write("Área de Manutenção x Tipo de Solicitação")
     st.bar_chart(chart_data2)
+
+    st.write("Área de Manutenção x Prédio")
     st.bar_chart(chart_data3)
 
 ############################## GRAF #######################################
@@ -553,7 +558,7 @@ elif pg == 'Alertas':
     ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
             shadow=True, startangle=90)
     ax1.axis('equal')  # Para garantir que o gráfico fique em formato de círculo.
-
+    ax1.set_title('OS por Área de Manutenção')
     # Exibir o gráfico no Streamlit
     st.pyplot(fig1)
 
@@ -575,7 +580,7 @@ elif pg == 'Alertas':
     ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
             shadow=True, startangle=90)
     ax1.axis('equal')  # Para garantir que o gráfico fique em formato de círculo.
-
+    ax1.set_title('OS por Prédio')
     # Exibir o gráfico no Streamlit
     st.pyplot(fig1)
 
@@ -597,7 +602,7 @@ elif pg == 'Alertas':
     ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
             shadow=True, startangle=90)
     ax1.axis('equal')  # Para garantir que o gráfico fique em formato de círculo.
-
+    ax1.set_title('OS por Status')
     # Exibir o gráfico no Streamlit
     st.pyplot(fig1)
 elif pg == 'Consulta':
