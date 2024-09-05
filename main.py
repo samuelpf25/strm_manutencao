@@ -43,8 +43,7 @@ creds = ServiceAccountCredentials.from_json_keyfile_dict(json, scope)
 cliente = gspread.authorize(creds)
 
 sheet = cliente.open_by_url(
-    'https://docs.google.com/spreadsheets/d/1zqIL_TnTewKwPkTTWtLlrsGBQnl9r6ZN6GSrjromXq4/edit?gid=0#gid=0').get_worksheet(
-    0)  # https://docs.google.com/spreadsheets/d/1PhJXFOKdEAjcILQCDyJ-couaDM6EWBUXM1GVh-3gZWM/edit#gid=96577098
+    'https://docs.google.com/spreadsheets/d/1zqIL_TnTewKwPkTTWtLlrsGBQnl9r6ZN6GSrjromXq4/edit?gid=0#gid=0').worksheet('OS')  # https://docs.google.com/spreadsheets/d/1PhJXFOKdEAjcILQCDyJ-couaDM6EWBUXM1GVh-3gZWM/edit#gid=96577098
 
 dados = sheet.get_all_records()  # Get a list of all records
 
