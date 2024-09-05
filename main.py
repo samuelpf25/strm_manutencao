@@ -260,7 +260,7 @@ if (pg == 'Edição individual'):
                 with st.spinner('Carregando dados...'):
                     chave = '1zqIL_TnTewKwPkTTWtLlrsGBQnl9r6ZN6GSrjromXq4'
                     aba = 'historico'
-                    sheet2, dados2, df2 = conexao(aba=aba, chave=chave)
+                    sheet2, dados2, df2 = conexao(aba=aba, chave=chave, linha_inicial=1)
                     dados_hist = df2[['data_reg','hora_reg','codigo','status','obs_usuario','obs_interna']]
                     #print(dados_hist)
                     # sheet.update_acell('AC1', selecionado)  # Numero UFT
