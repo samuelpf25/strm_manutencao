@@ -532,13 +532,6 @@ elif pg == 'Alertas':
     st.bar_chart(chart_data1)
     st.bar_chart(chart_data2)
     st.bar_chart(chart_data3)
-    c = (
-        alt.Chart(df2.groupby(['area_manutencao', 'status_uft']).size().unstack(fill_value=0))
-        .mark_circle()
-        .encode(x="area_manutencao", y="status_uft", size="area_manutencao", tooltip=["area_manutencao", "status_uft"])
-    )
-
-    st.altair_chart(c, use_container_width=True)
 
 elif pg == 'Consulta':
 
