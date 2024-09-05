@@ -789,8 +789,8 @@ elif pg == 'Consulta':
         # Filtrar por área
         aux = sorted(dados['area_manutencao'].unique())  # Obter valores únicos e ordenados
         filtro_area = st.multiselect('Filtrar por Área de Manutenção:', aux)
-        
-        
+
+
         # Filtrar por status
         aux = sorted(dados['status_uft'].unique())  # Obter valores únicos e ordenados
         filtro_status = st.multiselect('Filtrar por Status:', aux)
@@ -798,7 +798,7 @@ elif pg == 'Consulta':
         # Filtrar por data
         aux = sorted(dados['data_solicitacao'].unique())  # Obter valores únicos e ordenados
         filtro_data = st.multiselect('Filtrar por Data:', aux)
-        
+
         btn1 = st.form_submit_button('Filtrar')
 
     if btn1:
@@ -807,13 +807,13 @@ elif pg == 'Consulta':
         # Filtro de prédio
         if len(filtro_predio) > 0:
             filtros = filtros & dados['predio'].isin(filtro_predio)
-            
+
         if len(filtro_area) > 0:
             filtros = filtros & dados['area_manutencao'].isin(filtro_area)
-            
+
         if len(filtro_status) > 0:
             filtros = filtros & dados['status_uft'].isin(filtro_status)
-            
+
         if len(filtro_data) > 0:
             filtros = filtros & dados['data_solicitacao'].isin(filtro_data)
 
@@ -827,9 +827,6 @@ elif pg == 'Consulta':
         # Conversão para strings novamente para garantir compatibilidade
         dad_filtrado = dad_filtrado.astype(str)
 
-        # Verifica as primeiras linhas do DataFrame para garantir que está correto
-        st.write(dad_filtrado.head())
-
         # Exibe o DataFrame filtrado
         st.dataframe(dad_filtrado)
 
@@ -837,9 +834,7 @@ elif pg == 'Consulta':
         st.markdown(
             alerta + f'<Strong><i>Número de OS com o filtro correspondente: {len(dad[dad['area_manutencao'].str.strip() != ''])}.</i></Strong></p>',
             unsafe_allow_html=True)
-        print(dad)
-        st.dataframe(dad)  # dados[filtrar].head()
-        df_xlsx = to_excel(dad)
+        df_xlsx = to_excel(dad_filtrado)
         st.download_button(label='📥 Baixar Resultado do Filtro em Excel', data=df_xlsx,
                            file_name='filtro_planilha.xlsx')
     except:
