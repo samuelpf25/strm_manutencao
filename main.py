@@ -761,19 +761,25 @@ elif pg == 'Consulta':
             pass
 
     try:
-        chart_data1 = dad.groupby(['area_manutencao', 'status_uft']).size().unstack(fill_value=0)
-        chart_data2 = dad.groupby(['area_manutencao', 'tipo_solicitacao']).size().unstack(fill_value=0)
-        chart_data3 = dad.groupby(['area_manutencao', 'predio']).size().unstack(fill_value=0)
+        df2 = dad
+        chart_data1 = df2.groupby(['area_manutencao', 'status_uft']).size().unstack(fill_value=0)
+        chart_data2 = df2.groupby(['area_manutencao', 'tipo_solicitacao']).size().unstack(fill_value=0)
+        chart_data3 = df2.groupby(['area_manutencao', 'predio']).size().unstack(fill_value=0)
 
         # Exibir gráfico de barras
+        st.write("Área de Manutenção x Status")
         st.bar_chart(chart_data1)
+
+        st.write("Área de Manutenção x Tipo de Solicitação")
         st.bar_chart(chart_data2)
+
+        st.write("Área de Manutenção x Prédio")
         st.bar_chart(chart_data3)
 
         ############################## GRAF #######################################
         # Agrupar por area_manutencao e contar o total de OS por área
         # Filtrar os dados para ignorar valores vazios em 'area_manutencao'
-        df_filtered = dad[dad['area_manutencao'].notna() & (dad['area_manutencao'] != '')]
+        df_filtered = df2[df2['area_manutencao'].notna() & (df2['area_manutencao'] != '')]
 
         # Agrupar por area_manutencao e contar o total de OS por área
         chart_data = df_filtered.groupby('area_manutencao').size()
@@ -790,12 +796,12 @@ elif pg == 'Consulta':
         ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
                 shadow=True, startangle=90)
         ax1.axis('equal')  # Para garantir que o gráfico fique em formato de círculo.
-
+        ax1.set_title('OS por Área de Manutenção')
         # Exibir o gráfico no Streamlit
         st.pyplot(fig1)
 
         ############################## GRAF #######################################
-        df_filtered = dad[dad['predio'].notna() & (dad['predio'] != '')]
+        df_filtered = df2[df2['predio'].notna() & (df2['predio'] != '')]
 
         # Agrupar por area_manutencao e contar o total de OS por área
         chart_data = df_filtered.groupby('predio').size()
@@ -812,12 +818,12 @@ elif pg == 'Consulta':
         ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
                 shadow=True, startangle=90)
         ax1.axis('equal')  # Para garantir que o gráfico fique em formato de círculo.
-
+        ax1.set_title('OS por Prédio')
         # Exibir o gráfico no Streamlit
         st.pyplot(fig1)
 
         ############################## GRAF #######################################
-        df_filtered = dad[dad['status_uft'].notna() & (dad['status_uft'] != '')]
+        df_filtered = df2[df2['status_uft'].notna() & (df2['status_uft'] != '')]
 
         # Agrupar por area_manutencao e contar o total de OS por área
         chart_data = df_filtered.groupby('status_uft').size()
@@ -834,7 +840,7 @@ elif pg == 'Consulta':
         ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
                 shadow=True, startangle=90)
         ax1.axis('equal')  # Para garantir que o gráfico fique em formato de círculo.
-
+        ax1.set_title('OS por Status')
         # Exibir o gráfico no Streamlit
         st.pyplot(fig1)
     except:
