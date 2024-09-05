@@ -664,7 +664,7 @@ elif pg == 'Alertas':
     st.pyplot(fig1)
 
     ############################## GRAF #######################################
-    m_predio = st.number_input(min_value=0, max_value=100, step=1, label='Desconsiderar menores que %')
+    m_predio = st.number_input(min_value=0, max_value=100, step=1, label='Agrupar menores que %')
 
     df_filtered = df2[df2['predio'].notna() & (df2['predio'] != '')]
 
@@ -672,7 +672,7 @@ elif pg == 'Alertas':
     chart_data = df_filtered.groupby('predio').size()
 
     # Calcular o percentual de cada fatia
-    percentages = chart_data / chart_data.sum() * 100
+    percentages = (chart_data / chart_data.sum()) * 100
 
     # Definir um limite de 5% e agrupar as fatias menores que esse valor
     limit = m_predio
@@ -682,7 +682,7 @@ elif pg == 'Alertas':
     # Filtrar as categorias maiores que o limite e adicionar "Outros"
     large_categories = chart_data[percentages >= limit]
     if other_total > 0:
-        large_categories['Outros'] = small_categories.sum()
+        large_categories['Agrupados'] = small_categories.sum()
 
     # Rótulos e tamanhos para o gráfico de pizza
     labels = large_categories.index
@@ -933,7 +933,7 @@ elif pg == 'Consulta':
         st.pyplot(fig1)
 
         ############################## GRAF #######################################
-        m_predio = st.number_input(min_value=0,max_value=100,step=1,label='Desconsiderar menores que %')
+        m_predio = st.number_input(min_value=0,max_value=100,step=1,label='Agrupar menores que %')
 
         df_filtered = df2[df2['predio'].notna() & (df2['predio'] != '')]
 
@@ -941,7 +941,7 @@ elif pg == 'Consulta':
         chart_data = df_filtered.groupby('predio').size()
 
         # Calcular o percentual de cada fatia
-        percentages = chart_data / chart_data.sum() * 100
+        percentages = (chart_data / chart_data.sum()) * 100
 
         # Definir um limite de 5% e agrupar as fatias menores que esse valor
         limit = m_predio
@@ -993,7 +993,7 @@ elif pg == 'Consulta':
         st.pyplot(fig1)
 
         ############################## GRAF #######################################
-        
+
         # Filtrar apenas os registros com status "Atendida"
         df_atendida = df2[df2['status_uft'] == 'Atendida']
 
