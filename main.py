@@ -403,7 +403,7 @@ if (pg == 'Edição individual'):
 
             botao = st.form_submit_button('Registrar')
 
-        if (botao == True and (s == a or s in senhas)):
+        if (botao == True and (s in senhas)):
             if (sheet.cell(celula.row, 21).value == id_uft[n] and sheet.cell(celula.row, 1).value != ''):
                 with st.spinner('Registrando dados...Aguarde!'):
                     st.markdown(infor + '<b>Registro efetuado!</b></p>', unsafe_allow_html=True)
@@ -538,7 +538,7 @@ elif pg == 'Edição em Lote':
             s = st.text_input("Senha:", value="", type="password")  # , type="password"
             botao = st.form_submit_button('Registrar')
             efetuado = 0
-        if (botao == True and (s == a or s in senhas)):
+        if (botao == True and (s in senhas)):
             with st.spinner('Registrando dados...Aguarde!'):
                 for selecionado_i in selecionado:
                     celula = sheet.find(str(selecionado_i))
