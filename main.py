@@ -525,7 +525,7 @@ elif pg == 'Alertas':
 
     chart_data = pd.DataFrame(df2[['area_manutencao', 'status_uft']])
 
-    st.bar_chart(chart_data)
+    st.bar_chart(chart_data, x="area_manutencao", y="status_uft")
 
 elif pg == 'Consulta':
 
