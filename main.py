@@ -164,7 +164,7 @@ def to_excel(df):
 st.sidebar.title('Gestão Manutenção Predial')
 a = k
 # pg=st.sidebar.selectbox('Selecione a Página',['Solicitações em Aberto','Solicitações a Finalizar','Consulta'])
-pg = st.sidebar.radio('', ['Edição individual', 'Edição em Lote', 'Consulta', 'Prioridades do dia'])
+pg = st.sidebar.radio('', ['Edição individual', 'Edição em Lote', 'Alertas', 'Consulta', 'Prioridades do dia'])
 status = ['', 'Todas Ativas', 'OS Aberta', 'Pendente de Material', 'Pendente Solicitante', 'Pendente Outros',
           'Atendida', 'Material Solicitado', 'Material Disponível', 'Indeferido','Cancelada']
 status_todos = ['', 'OS Aberta', 'Pendente de Material', 'Pendente Solicitante', 'Pendente Outros', 'Atendida',
@@ -506,6 +506,27 @@ elif pg == 'Edição em Lote':
             st.markdown(alerta + '<b>Senha incorreta!</b></p>', unsafe_allow_html=True)
     else:
         st.markdown(infor + '<b>Não há itens na condição ' + pg + '</b></p>', unsafe_allow_html=True)
+
+
+elif pg == 'Alertas':
+
+    # Alertas  ******************************************************************************************
+    st.markdown(cabecalho, unsafe_allow_html=True)
+
+    st.subheader(pg)
+
+    chave = '1zqIL_TnTewKwPkTTWtLlrsGBQnl9r6ZN6GSrjromXq4'
+
+    aba = 'Alertas'
+    sheet2, dados2, df2 = conexao(aba=aba, chave=chave, linha_inicial=1)
+    dados_hist = df2[['data_hora', 'nome_solicitante', 'area_manutencao', 'data_solicitacao','ordem_servico', 'urg_uft', 'status_uft', 'data_status', 'obs_usuario','obs_interna']]
+    dad_h = dados_hist
+    st.dataframe(dad_h.astype(str))
+
+    chart_data = pd.DataFrame(df2[['area_manutencao', 'status_uft']])
+
+    st.bar_chart(chart_data)
+
 elif pg == 'Consulta':
 
     # PÁGINA DE CONSULTA ************************************************************************************************
