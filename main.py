@@ -1,4 +1,4 @@
-# última edição 04/09/2024
+# última edição 05/09/2024
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import streamlit as st
@@ -769,9 +769,8 @@ elif pg == 'Consulta':
     import streamlit as st
 
     # Converte todas as colunas para strings para evitar erros de conversão
-    titulos = ['data_hora', 'nome_solicitante', 'area_manutencao', 'tipo_solicitacao', 'descricao_sucinta',
-               'sala', 'data_solicitacao', 'telefone', 'urg_uft', 'status_uft', 'data_status',
-               'alerta_coluna', 'pontos', 'ordem_servico', 'obs_usuario', 'obs_interna', 'predio', 'email']
+    titulos = ['data_hora', 'nome_solicitante', 'area_manutencao', 'tipo_solicitacao', 'descricao_sucinta', 'predio',
+               'sala', 'data_solicitacao',  'ordem_servico', 'status_uft']
 
     dados = df[titulos].astype(str).fillna('')  # Garante que todos os dados sejam strings
     dad = dados
