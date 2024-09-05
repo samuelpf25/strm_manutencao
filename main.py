@@ -519,14 +519,18 @@ elif pg == 'Alertas':
 
     aba = 'Alertas'
     sheet2, dados2, df2 = conexao(aba=aba, chave=chave, linha_inicial=1)
-    dados_hist = df2[['data_hora', 'nome_solicitante', 'area_manutencao', 'data_solicitacao','ordem_servico', 'urg_uft', 'status_uft', 'data_status', 'obs_usuario','obs_interna']]
+    dados_hist = df2[['data_hora', 'nome_solicitante', 'area_manutencao', 'predio', 'data_solicitacao','ordem_servico', 'urg_uft', 'status_uft', 'data_status', 'obs_usuario','obs_interna']]
     dad_h = dados_hist
     st.dataframe(dad_h.astype(str))
 
-    chart_data = df2.groupby(['area_manutencao', 'status_uft']).size().unstack(fill_value=0)
-    
+    chart_data1 = df2.groupby(['area_manutencao', 'status_uft']).size().unstack(fill_value=0)
+    chart_data2 = df2.groupby(['area_manutencao', 'tipo_solicitacao']).size().unstack(fill_value=0)
+    chart_data3 = df2.groupby(['area_manutencao', 'predio']).size().unstack(fill_value=0)
+
     # Exibir gráfico de barras
-    st.bar_chart(chart_data)
+    st.bar_chart(chart_data1)
+    st.bar_chart(chart_data2)
+    st.bar_chart(chart_data3)
 
 elif pg == 'Consulta':
 
@@ -679,25 +683,16 @@ elif pg == 'Consulta':
     else:
         st.dataframe(df[titulos])
 
-    # print(dad['ordem_servico'])
-    # options = {
-    #     "chart": {
-    #         "toolbar": {
-    #             "show": False
-    #         }
-    #     },
-    #
-    #     "labels": dad['status_uft']
-    #     ,
-    #     "legend": {
-    #         "show": True,
-    #         "position": "bottom",
-    #     }
-    # }
-    #
-    # series = dad['ordem_servico']
-    #
-    # st_apexcharts(options, series, 'donut', '600', 'title')
+    chart_data1 = dad.groupby(['area_manutencao', 'status_uft']).size().unstack(fill_value=0)
+    chart_data2 = dad.groupby(['area_manutencao', 'tipo_solicitacao']).size().unstack(fill_value=0)
+    chart_data3 = dad.groupby(['area_manutencao', 'predio']).size().unstack(fill_value=0)
+
+    # Exibir gráfico de barras
+    st.bar_chart(chart_data1)
+    st.bar_chart(chart_data2)
+    st.bar_chart(chart_data3)
+
+
 
 elif pg == 'Prioridades do dia':
     st.markdown(cabecalho, unsafe_allow_html=True)
