@@ -105,7 +105,7 @@ padrao = '<p style="font-family:Courier; color:Blue; font-size: 16px;">'
 infor = '<p style="font-family:Courier; color:Green; font-size: 16px;">'
 alerta = '<p style="font-family:Courier; color:Red; font-size: 17px;">'
 titulo = '<p style="font-family:Courier; color:Blue; font-size: 20px;">'
-cabecalho = '<div id="logo" class="span8 small"><h1>CONTROLE DE ORDENS DE SERVIÇO - UFT</h1></div>'
+cabecalho = '<div id="logo" class="span8 small"><h1>CONTROLE DE ORDENS DE SERVIÇO - UFES</h1></div>'
 
 
 # @st.cache
@@ -312,7 +312,7 @@ if (pg == 'Edição individual'):
             botao = st.form_submit_button('Registrar')
 
         if (botao == True and s == a):
-            if (sheet.cell(celula.row, 21).value == ordem_servico[n] and sheet.cell(celula.row, 1).value != ''):
+            if (sheet.cell(celula.row, 21).value == id_uft[n] and sheet.cell(celula.row, 11).value == ordem_servico[n]):
                 with st.spinner('Registrando dados...Aguarde!'):
                     st.markdown(infor + '<b>Registro efetuado!</b></p>', unsafe_allow_html=True)
 
