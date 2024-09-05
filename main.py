@@ -423,7 +423,7 @@ if (pg == 'Edição individual'):
                     sheet.update_acell('X' + str(celula.row), 'sim' if status_reg == 'Cancelada' else '')
                 st.success('Registro efetuado!')
                 with st.spinner('Registrando histórico..Aguarde!'):
-                    registra_historico(selecionado, status_reg, obs_usr, obs_int, ip_usuario)
+                    registra_historico(selecionado, status_reg, obs_usr, obs_int, s)
             else:
                 st.error('Código de OS inválido!')
         elif (botao == True and s != a):
@@ -557,7 +557,7 @@ elif pg == 'Edição em Lote':
                             data_reg = data_hoje.strftime('%d/%m/%Y')
                             sheet.update_acell('P' + str(celula.row), data_reg)
                             with st.spinner('Registrando histórico..Aguarde!'):
-                                registra_historico(id_uft[ordem_servico.index(selecionado_i)], status_reg, obs_usr, obs_int, ip_usuario)
+                                registra_historico(id_uft[ordem_servico.index(selecionado_i)], status_reg, obs_usr, obs_int, s)
 
                         # sheet.update_acell('R' + str(celula.row), '')  # apagar Sim para enviar e-mail
                         if (obs_usr != ''):
