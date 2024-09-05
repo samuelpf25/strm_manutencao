@@ -929,7 +929,7 @@ elif pg == 'Consulta':
         # Filtrar as categorias maiores que o limite e adicionar "Outros"
         large_categories = chart_data[percentages >= limit]
         if other_total > 0:
-            large_categories['Agrupados'] = small_categories.sum()
+            large_categories['Outros'] = small_categories.sum()
 
         # Rótulos e tamanhos para o gráfico de pizza
         labels = large_categories.index
@@ -967,7 +967,7 @@ elif pg == 'Consulta':
         # Filtrar as categorias maiores que o limite e adicionar "Outros"
         large_categories = chart_data[percentages >= limit]
         if other_total > 0:
-            large_categories['Agrupados'] = small_categories.sum()
+            large_categories['Outros'] = small_categories.sum()
 
         # Rótulos e tamanhos para o gráfico de pizza
         labels = large_categories.index
@@ -1005,7 +1005,7 @@ elif pg == 'Consulta':
         # Filtrar as categorias maiores que o limite e adicionar "Outros"
         large_categories = chart_data[percentages >= limit]
         if other_total > 0:
-            large_categories['Agrupados'] = other_total
+            large_categories['Outros'] = other_total
 
         # Rótulos e tamanhos para o gráfico de pizza
         labels = large_categories.index
