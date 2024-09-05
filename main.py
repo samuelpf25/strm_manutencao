@@ -1,4 +1,4 @@
-# última edição 05/09/2024
+# última edição 04/09/2024
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import streamlit as st
@@ -739,49 +739,68 @@ elif pg == 'Consulta':
     obs_interna.append('')
     email.append('')
 
-   
+    for dic in df.index:
+        if df['predio'][dic] != '':
+            # print(df['Código da UFT'][dic])
+            data_hora.append(df['data_hora'][dic])
+            nome_solicitante.append(df['nome_solicitante'][dic])
+            area_manutencao.append(df['area_manutencao'][dic])
+            tipo_solicitacao.append(df['tipo_solicitacao'][dic])
+            descricao_sucinta.append(df['descricao_sucinta'][dic])
+            predio.append(df['predio'][dic])
+            sala.append(df['sala'][dic])
+            data_solicitacao.append(df['data_solicitacao'][dic])
+            telefone.append(df['telefone'][dic])
+            urg_uft.append(df['urg_uft'][dic])
+            status_uft.append(df['status_uft'][dic])
+            data_status.append(df['data_status'][dic])
+            alerta_coluna.append(df['alerta_coluna'][dic])
+            pontos.append(df['pontos'][dic])
+            ordem_servico.append(df['ordem_servico'][dic])
+            obs_usuario.append(df['obs_usuario'][dic])
+            obs_interna.append(df['obs_interna'][dic])
+            id_uft.append(df['id_uft'][dic])
+            email.append(df['email'][dic])
 
     st.markdown(cabecalho, unsafe_allow_html=True)
     st.subheader(pg)
-
-
     titulos = ['data_hora', 'nome_solicitante', 'area_manutencao', 'tipo_solicitacao', 'descricao_sucinta',
                'sala', 'data_solicitacao', 'telefone', 'urg_uft', 'status_uft', 'data_status',
-               'alerta_coluna', 'pontos', 'ordem_servico', 'obs_usuario', 'obs_interna', 'predio','sala','email']
+               'alerta_coluna', 'pontos', 'ordem_servico', 'obs_usuario', 'obs_interna', 'predio', 'sala', 'email']
+
+    dados = df[titulos].astype(str).fillna('')
+    dad = dados
 
     with st.form(key='form1'):
         tit_plan = titulos
         coluna_busca = st.selectbox('Coluna para busca por argumento', tit_plan)
         texto = st.text_input('Busca por argumento na coluna selecionada: ')
 
+        # Filtrar por prédio
+        predios_unicos = sorted(dados['predio'].unique())  # Obter valores únicos e ordenados
+        filtro_predio = st.multiselect('Filtrar por Prédio:', predios_unicos)
+
         btn1 = st.form_submit_button('Filtrar')
 
-    if (btn1 == True):
-        for dic in df.index:
-            if texto in df[coluna_busca][dic]:
-                # print(df['Código da UFT'][dic])
-                data_hora.append(df['data_hora'][dic])
-                nome_solicitante.append(df['nome_solicitante'][dic])
-                area_manutencao.append(df['area_manutencao'][dic])
-                tipo_solicitacao.append(df['tipo_solicitacao'][dic])
-                descricao_sucinta.append(df['descricao_sucinta'][dic])
-                predio.append(df['predio'][dic])
-                sala.append(df['sala'][dic])
-                data_solicitacao.append(df['data_solicitacao'][dic])
-                telefone.append(df['telefone'][dic])
-                urg_uft.append(df['urg_uft'][dic])
-                status_uft.append(df['status_uft'][dic])
-                data_status.append(df['data_status'][dic])
-                alerta_coluna.append(df['alerta_coluna'][dic])
-                pontos.append(df['pontos'][dic])
-                ordem_servico.append(df['ordem_servico'][dic])
-                obs_usuario.append(df['obs_usuario'][dic])
-                obs_interna.append(df['obs_interna'][dic])
-                id_uft.append(df['id_uft'][dic])
-                email.append(df['email'][dic])
-                
-        dados = df[titulos].astype(str).fillna('')
-        dad = dados
+    # Aplicação do filtro após o botão ser clicado
+    if btn1:
+        # Inicialmente, nenhum filtro é aplicado
+        filtros = [True] * len(dados)
+
+        # Aplicar filtro de prédio, se selecionado
+        if len(filtro_predio) > 0:
+            filtros = filtros & dados['predio'].isin(filtro_predio)
+
+        # Aplicar filtro de texto na coluna selecionada, se houver texto
+        if texto != '' and coluna_busca != '':
+            filtros = filtros & dados[coluna_busca].str.contains(texto, case=False, na=False)
+
+        # Aplicar os filtros ao DataFrame
+        dad_filtrado = dados[filtros]
+
+        # Exibir DataFrame filtrado
+        st.dataframe(dad_filtrado)
+
     try:
         st.markdown(
             alerta + f'<Strong><i>Número de OS com o filtro correspondente: {len(dad[dad['area_manutencao'].str.strip() != ''])}.</i></Strong></p>',
