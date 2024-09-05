@@ -6,12 +6,6 @@ import pandas as pd
 from datetime import date, datetime
 from io import BytesIO
 import pytz
-import altair as alt
-
-# from pyxlsb import open_workbook as open_xlsb
-# from awesome_table import AwesomeTable
-# from awesome_table.column import (Column, ColumnDType)
-from streamlit_apexjs import st_apexcharts
 
 
 fuso_horario_sp = pytz.timezone('America/Sao_Paulo')
@@ -683,7 +677,22 @@ elif pg == 'Consulta':
         # else:
         #    st.dataframe(df[titulos])
     else:
-        st.dataframe(df[titulos])
+        try:
+            st.dataframe(df[titulos])
+        except:
+            pass
+
+    try:
+        chart_data1 = dad.groupby(['area_manutencao', 'status_uft']).size().unstack(fill_value=0)
+        chart_data2 = dad.groupby(['area_manutencao', 'tipo_solicitacao']).size().unstack(fill_value=0)
+        chart_data3 = dad.groupby(['area_manutencao', 'predio']).size().unstack(fill_value=0)
+
+        # Exibir gráfico de barras
+        st.bar_chart(chart_data1)
+        st.bar_chart(chart_data2)
+        st.bar_chart(chart_data3)
+    except:
+        pass
 
 
 
