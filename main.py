@@ -427,7 +427,8 @@ if (pg == 'Edição individual'):
             else:
                 st.error('Código de OS inválido!')
         elif (botao == True and s not in senhas):
-            st.markdown(alerta + '<b>Senha incorreta!</b></p>', unsafe_allow_html=True)
+            st.error('Senha incorreta!')
+            #st.markdown(alerta + '<b>Senha incorreta!</b></p>', unsafe_allow_html=True)
     else:
         st.markdown(infor + '<b>Não há itens na condição ' + pg + '</b></p>', unsafe_allow_html=True)
 
@@ -577,7 +578,8 @@ elif pg == 'Edição em Lote':
             elif (efetuado == 1 and repeticao == 1):
                 st.error('Dados parcialmente cadastrados! As OS com números repetidos não foram registradas!')
         elif (botao == True and s not in senhas):
-            st.markdown(alerta + '<b>Senha incorreta!</b></p>', unsafe_allow_html=True)
+            st.error('Senha incorreta!')
+            #st.markdown(alerta + '<b>Senha incorreta!</b></p>', unsafe_allow_html=True)
     else:
         st.markdown(infor + '<b>Não há itens na condição ' + pg + '</b></p>', unsafe_allow_html=True)
 
