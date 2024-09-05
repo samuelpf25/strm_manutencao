@@ -109,7 +109,7 @@ padrao = '<p style="font-family:Courier; color:Blue; font-size: 16px;">'
 infor = '<p style="font-family:Courier; color:Green; font-size: 16px;">'
 alerta = '<p style="font-family:Courier; color:Red; font-size: 17px;">'
 titulo = '<p style="font-family:Courier; color:Blue; font-size: 20px;">'
-cabecalho = '<div id="logo" class="span8 small"><h1>CONTROLE DE ORDENS DE SERVIÇO - UFES</h1></div>'
+cabecalho = '<div id="logo" class="span8 small"><h1>CONTROLE DE ORDENS DE SERVIÇO - UFT</h1></div>'
 
 
 # @st.cache
