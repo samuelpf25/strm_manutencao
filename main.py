@@ -25,6 +25,9 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 # 1) DECLARAÇÃO DE VARIÁVEIS GLOBAIS ####################################################################################
 scope = ['https://spreadsheets.google.com/feeds']
 k = st.secrets["senha"]
+senhas = st.secrets["senhas"]
+senhas = senhas.split(",")
+
 json = {
     "type": st.secrets["type"],
     "project_id": st.secrets["project_id"],
@@ -181,7 +184,7 @@ def registra_historico(codigo,status,obsusuario,obsinterna,ip_usuario):
     sheet2.update_acell('D' + str(celula.row), status)
     sheet2.update_acell('E' + str(celula.row), obsusuario)
     sheet2.update_acell('F' + str(celula.row), obsinterna)
-    sheet2.update_acell('E' + str(celula.row), ip_usuario)
+    sheet2.update_acell('G' + str(celula.row), ip_usuario)
 
 def next_available_row(worksheet):
     str_list = list(filter(None, worksheet.col_values(1)))
@@ -281,7 +284,7 @@ if (pg == 'Edição individual'):
 
     if len(data_hora) > 1 and (filtra_os != ''):
         st.markdown(
-            alerta + f'<Strong><i>Foram encontradas {len(data_hora)} Ordens de Serviço com este mesmo número, selecione abaixo a solicitação correspondente:</i></Strong></p>',
+            alerta + f'<Strong><i>Foram encontradas {len(data_hora)} Ordens de Serviço com este mesmo argumento, selecione abaixo a solicitação correspondente:</i></Strong></p>',
             unsafe_allow_html=True)
     selecionado = st.selectbox('Nº da UFT:', id_uft)
     st.markdown(
@@ -310,7 +313,7 @@ if (pg == 'Edição individual'):
                url ='https://drive.google.com/file/d/' + id + '/preview' #'https://drive.google.com/uc?export=view&id=' + id #
                print(url)
                dir+='<iframe src="'+url+'"></iframe><br>'
-
+               st.write(dir, unsafe_allow_html=True)
                #components.iframe(url)
                #st.image(url)
                #htm = '<img src="'+url+'" alt="Foto" width="100" height="100"><br>'
@@ -400,7 +403,7 @@ if (pg == 'Edição individual'):
 
             botao = st.form_submit_button('Registrar')
 
-        if (botao == True and s == a):
+        if (botao == True and (s == a or s in senhas)):
             if (sheet.cell(celula.row, 21).value == id_uft[n] and sheet.cell(celula.row, 1).value != ''):
                 with st.spinner('Registrando dados...Aguarde!'):
                     st.markdown(infor + '<b>Registro efetuado!</b></p>', unsafe_allow_html=True)
@@ -535,7 +538,7 @@ elif pg == 'Edição em Lote':
             s = st.text_input("Senha:", value="", type="password")  # , type="password"
             botao = st.form_submit_button('Registrar')
             efetuado = 0
-        if (botao == True and s == a):
+        if (botao == True and (s == a or s in senhas)):
             with st.spinner('Registrando dados...Aguarde!'):
                 for selecionado_i in selecionado:
                     celula = sheet.find(str(selecionado_i))
