@@ -341,6 +341,8 @@ if (pg == 'Edição individual'):
                     # df_hist = df_hist.astype(str)
                     st.dataframe(dad_h.astype(str))
         celula = sheet.find(str(id_uft[n]))
+        if (celula=='NoneType'):
+            celula = sheet.find('0' + str(id_uft[n]))
         # procurando status equivalente na lista
         indice = 0
         cont = 0
