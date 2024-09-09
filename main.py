@@ -1,4 +1,4 @@
-# última edição 05/09/2024
+# última edição 09/09/2024
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import streamlit as st
@@ -405,25 +405,28 @@ if (pg == 'Edição individual'):
 
         if ((botao == True) and (s in senhas)):
             if (sheet.cell(celula.row, 21).value == id_uft[n] and sheet.cell(celula.row, 1).value != ''):
-                with st.spinner('Registrando dados...Aguarde!'):
-                    st.markdown(infor + '<b>Registro efetuado!</b></p>', unsafe_allow_html=True)
+                if (status_reg!=''):
+                    with st.spinner('Registrando dados...Aguarde!'):
+                        st.markdown(infor + '<b>Registro efetuado!</b></p>', unsafe_allow_html=True)
 
-                    sheet.update_acell('K' + str(celula.row), n_os)
-                    sheet.update_acell('L' + str(celula.row), urg_m)
-                    sheet.update_acell('M' + str(celula.row), status_reg)
-                    sheet.update_acell('D' + str(celula.row), area_reg)
-                    sheet.update_acell('E' + str(celula.row), tipo_reg)
-                    sheet.update_acell('N' + str(celula.row), obs_usr)  # obs_email
-                    sheet.update_acell('O' + str(celula.row), obs_int)  # obs_interna
+                        sheet.update_acell('K' + str(celula.row), n_os)
+                        sheet.update_acell('L' + str(celula.row), urg_m)
+                        sheet.update_acell('M' + str(celula.row), status_reg)
+                        sheet.update_acell('D' + str(celula.row), area_reg)
+                        sheet.update_acell('E' + str(celula.row), tipo_reg)
+                        sheet.update_acell('N' + str(celula.row), obs_usr)  # obs_email
+                        sheet.update_acell('O' + str(celula.row), obs_int)  # obs_interna
 
-                    data_hoje = datetime.now(fuso_horario_sp)
-                    data_reg = data_hoje.strftime('%d/%m/%Y')
-                    sheet.update_acell('P' + str(celula.row), data_reg)
+                        data_hoje = datetime.now(fuso_horario_sp)
+                        data_reg = data_hoje.strftime('%d/%m/%Y')
+                        sheet.update_acell('P' + str(celula.row), data_reg)
 
-                    sheet.update_acell('X' + str(celula.row), 'sim' if status_reg == 'Cancelada' else '')
-                st.success('Registro efetuado!')
-                with st.spinner('Registrando histórico..Aguarde!'):
-                    registra_historico(selecionado, status_reg, obs_usr, obs_int, s)
+                        sheet.update_acell('X' + str(celula.row), 'sim' if status_reg == 'Cancelada' else '')
+                    st.success('Registro efetuado!')
+                    with st.spinner('Registrando histórico..Aguarde!'):
+                        registra_historico(selecionado, status_reg, obs_usr, obs_int, s)
+                else:
+                    st.error('Selecione um Status para a OS!')
             else:
                 st.error('Código de OS inválido!')
         elif (botao == True and s not in senhas):
