@@ -254,7 +254,7 @@ if (pg == 'Edição individual'):
                 ordem_servico.append(df['ordem_servico'][dic])
                 obs_usuario.append(df['obs_usuario'][dic])
                 obs_interna.append(df['obs_interna'][dic])
-                id_uft.append(df['id_uft'][dic])
+                id_uft.append(str(df['id_uft'][dic]))
                 email.append(df['email'][dic])
                 foto_video.append(df['foto_video'][dic])
 
@@ -278,7 +278,7 @@ if (pg == 'Edição individual'):
                 ordem_servico.append(df['ordem_servico'][dic])
                 obs_usuario.append(df['obs_usuario'][dic])
                 obs_interna.append(df['obs_interna'][dic])
-                id_uft.append(df['id_uft'][dic])
+                id_uft.append(str(df['id_uft'][dic]))
                 email.append(df['email'][dic])
                 foto_video.append(df['foto_video'][dic])
 
