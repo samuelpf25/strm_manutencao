@@ -1,4 +1,4 @@
-# última edição 09/09/2024
+# última edição 10/09/2024
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import streamlit as st
@@ -20,6 +20,7 @@ footer {visibility: hidden;}
 </style>
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+components.html(hide_streamlit_style)
 # fim ocultar menu
 
 # 1) DECLARAÇÃO DE VARIÁVEIS GLOBAIS ####################################################################################
@@ -105,10 +106,10 @@ horas = ['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
          '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30']
 
 # 2) padroes #####################################################################################################
-padrao = '<p style="font-family:Courier; color:Blue; font-size: 16px;">'
+padrao = '<p style="font-family:Courier; color:White; font-size: 16px;">'
 infor = '<p style="font-family:Courier; color:Green; font-size: 14px;">'
 alerta = '<p style="font-family:Courier; color:Red; font-size: 17px;">'
-titulo = '<p style="font-family:Courier; color:Blue; font-size: 20px;">'
+titulo = '<p style="font-family:Courier; color:White; font-size: 20px;">'
 cabecalho='<div id="logo" class="span8 small"><a title="Universidade Federal do Tocantins"><img src="https://www.uft.edu.br/static/media/LogoHeader.48fc918c.svg" alt="Universidade Federal do Tocantins"><span class="portal-title-1"></span><h1 class="portal-title corto">Universidade Federal do Tocantins</h1><span class="portal-description">COINFRA - MANUTENÇÃO PREDIAL</span></a></div>'
 
 # @st.cache
@@ -341,8 +342,7 @@ if (pg == 'Edição individual'):
                     # df_hist = df_hist.astype(str)
                     st.dataframe(dad_h.astype(str))
         celula = sheet.find(str(id_uft[n]))
-        if (celula=='NoneType'):
-            celula = sheet.find('0' + str(id_uft[n]))
+        
         # procurando status equivalente na lista
         indice = 0
         cont = 0
