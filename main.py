@@ -282,7 +282,8 @@ if (pg == 'Edição individual'):
                 id_uft.append(str(df['id_uft'][dic]))
                 email.append(df['email'][dic])
                 foto_video.append(df['foto_video'][dic])
-    st.markdown('<p>'+', '.join(data_hora)+'</p>')
+    #st.markdown('<p>'+', '.join(data_hora)+'</p>')
+    st.dataframe(df.astype(str))
     if len(data_hora) > 1 and (filtra_os != ''):
         st.markdown(
             alerta + f'<Strong><i>Foram encontradas {len(data_hora)} Ordens de Serviço com este mesmo argumento, selecione abaixo a solicitação correspondente:</i></Strong></p>',
