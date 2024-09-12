@@ -59,11 +59,10 @@ def conexao(aba="Outros",
     return sheet, dados, df
 
 
-sheet = cliente.conexao(aba='OS',linha_inicial=1) # https://docs.google.com/spreadsheets/d/1PhJXFOKdEAjcILQCDyJ-couaDM6EWBUXM1GVh-3gZWM/edit#gid=96577098
+sheet,dados,df = conexao(aba='OS',linha_inicial=1) # https://docs.google.com/spreadsheets/d/1PhJXFOKdEAjcILQCDyJ-couaDM6EWBUXM1GVh-3gZWM/edit#gid=96577098
 
 dados = sheet.get_all_records()  # Get a list of all records
-
-df = pd.DataFrame(dados)
+#df = pd.DataFrame(dados)
 df = df.astype(str)
 
 areas = ['Ar-Condicionado ou Refrigeração','Elétrica ou Iluminação', 'Rede de Água ou Esgoto', 'Outros']
