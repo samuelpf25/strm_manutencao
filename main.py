@@ -1,4 +1,4 @@
-# última edição 10/09/2024
+# última edição 12/09/2024
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import streamlit as st
@@ -47,16 +47,6 @@ creds = ServiceAccountCredentials.from_json_keyfile_dict(json, scope)
 
 cliente = gspread.authorize(creds)
 
-sheet = cliente.open_by_url(
-    'https://docs.google.com/spreadsheets/d/1zqIL_TnTewKwPkTTWtLlrsGBQnl9r6ZN6GSrjromXq4/edit?gid=0#gid=0').get_worksheet(
-    0)  # https://docs.google.com/spreadsheets/d/1PhJXFOKdEAjcILQCDyJ-couaDM6EWBUXM1GVh-3gZWM/edit#gid=96577098
-
-dados = sheet.get_all_records()  # Get a list of all records
-
-df = pd.DataFrame(dados)
-df = df.astype(str)
-
-
 def conexao(aba="Outros",
             chave='1zqIL_TnTewKwPkTTWtLlrsGBQnl9r6ZN6GSrjromXq4',
             linha_inicial=2):  # Linha inicial para carregar os dados
@@ -68,6 +58,13 @@ def conexao(aba="Outros",
     df = pd.DataFrame(dados[1:], columns=dados[0])  # Cria o DataFrame a partir dos dados
     return sheet, dados, df
 
+
+sheet = cliente.conexao(aba='OS',linha_inicial=1) # https://docs.google.com/spreadsheets/d/1PhJXFOKdEAjcILQCDyJ-couaDM6EWBUXM1GVh-3gZWM/edit#gid=96577098
+
+dados = sheet.get_all_records()  # Get a list of all records
+
+df = pd.DataFrame(dados)
+df = df.astype(str)
 
 areas = ['Ar-Condicionado ou Refrigeração','Elétrica ou Iluminação', 'Rede de Água ou Esgoto', 'Outros']
 tipos = {
@@ -283,7 +280,7 @@ if (pg == 'Edição individual'):
                 email.append(df['email'][dic])
                 foto_video.append(df['foto_video'][dic])
     #st.markdown('<p>'+', '.join(data_hora)+'</p>')
-    st.dataframe(df.astype(str))
+    #st.dataframe(df.astype(str))
     if len(data_hora) > 1 and (filtra_os != ''):
         st.markdown(
             alerta + f'<Strong><i>Foram encontradas {len(data_hora)} Ordens de Serviço com este mesmo argumento, selecione abaixo a solicitação correspondente:</i></Strong></p>',
