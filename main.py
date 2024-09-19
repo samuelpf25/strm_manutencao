@@ -286,9 +286,12 @@ if (pg == 'Edição individual'):
             alerta + f'<Strong><i>Foram encontradas {len(data_hora)} Ordens de Serviço com este mesmo argumento, selecione abaixo a solicitação correspondente:</i></Strong></p>',
             unsafe_allow_html=True)
     selecionado = st.selectbox('Nº da UFT:', id_uft)
-    st.markdown(
-        alerta + f'<Strong><i>Foram encontradas {len(id_uft)} solicitações com este filtro.</i></Strong>Selecionada atual é '+selecionado+'</p>',
-        unsafe_allow_html=True)
+    try:
+        st.markdown(
+            alerta + f'<Strong><i>Foram encontradas {len(id_uft)} solicitações com este filtro.</i></Strong>Selecionada atual é '+selecionado+'</p>',
+            unsafe_allow_html=True)
+    except:
+        pass
     if (len(ordem_servico) > 0):
         n = id_uft.index(selecionado)
 
