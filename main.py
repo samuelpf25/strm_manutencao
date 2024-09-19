@@ -287,7 +287,7 @@ if (pg == 'Edição individual'):
             unsafe_allow_html=True)
     selecionado = st.selectbox('Nº da UFT:', id_uft)
     st.markdown(
-        alerta + f'<Strong><i>Foram encontradas {len(id_uft)} solicitações com este filtro.</i></Strong></p>',
+        alerta + f'<Strong><i>Foram encontradas {len(id_uft)} solicitações com este filtro.</i></Strong>Selecionada atual é '+selecionado+'</p>',
         unsafe_allow_html=True)
     if (len(ordem_servico) > 0):
         n = id_uft.index(selecionado)
