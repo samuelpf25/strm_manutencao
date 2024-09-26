@@ -16,8 +16,7 @@ fuso_horario_sp = pytz.timezone('America/Sao_Paulo')
 hide_streamlit_style = """
 <meta http-equiv="Content-Language" content="pt-br">
 <style>
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
+
 </style>
 """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
@@ -233,7 +232,7 @@ if (pg == 'Edição individual'):
         if (filtrando == ['Todas Ativas']):
             filtrando = status_todos
         if filtra_os != '':
-            if df['status_uft'][dic] in filtrando and df['area_manutencao'][dic] != '' and (str(df['ordem_servico'][dic]) == str(filtra_os) or str(filtra_os) in df['obs_interna'][dic]):
+            if df['status_uft'][dic] in filtrando and df['area_manutencao'][dic] != '' and (str(df['ordem_servico'][dic]) == str(filtra_os) or (str(filtra_os) in df['obs_interna'][dic])):
                 # print(df['Código da UFT'][dic])
                 data_hora.append(df['data_hora'][dic])
                 nome_solicitante.append(df['nome_solicitante'][dic])
