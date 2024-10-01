@@ -406,7 +406,7 @@ if (pg == 'Edição individual'):
             obs_int = st.text_area('Observação Interna:', value=obs_interna[n])
             urg_m = st.selectbox('Urgência UFT:', ['Baixa', 'Média', 'Alta'], index=i_urg)
 
-            n_enviar_email = st.checkbox("Não enviar e-mail")
+            n_enviar_email = False #st.checkbox("Não enviar e-mail")
 
             s = st.text_input("Senha:", value="", type="password")  # , type="password"
 
@@ -433,10 +433,10 @@ if (pg == 'Edição individual'):
                             data_reg = data_hoje.strftime('%d/%m/%Y')
                             sheet.update_acell('P' + str(celula.row), data_reg)
 
-                            st.markdown('não enviar e-mail: ' + str(n_enviar_email))
+                            #st.markdown('não enviar e-mail: ' + str(n_enviar_email))
                             if n_enviar_email or (os_atual == n_os and status_atual == status_reg and obs_atual == obs_usr):
-                                st.markdown('NÃO ENVIAR E-MAIL')
-                                st.markdown('OS Atual: ' + os_atual + '<br> Os reg: ' + ordem_servico[n] + '<br> status atual: ' + status_atual + '<br> status reg: ' + status_todos[indice] + '<br> obs atual: '+ obs_atual + '<br> obs reg: ' + obs_usuario[n])
+                                #st.markdown('NÃO ENVIAR E-MAIL')
+                                #st.markdown('OS Atual: ' + os_atual + '<br> Os reg: ' + ordem_servico[n] + '<br> status atual: ' + status_atual + '<br> status reg: ' + status_todos[indice] + '<br> obs atual: '+ obs_atual + '<br> obs reg: ' + obs_usuario[n])
 
                                 sheet.update_acell('X' + str(celula.row),'sim')
                             else:
