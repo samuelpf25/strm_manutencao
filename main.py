@@ -1,5 +1,5 @@
 # última edição 12/09/2024
-data_atualizacao = '01/10/2024 às 18:20h'
+data_atualizacao = '01/10/2024 às 16:45h'
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import streamlit as st
@@ -407,7 +407,7 @@ if (pg == 'Edição individual'):
             urg_m = st.selectbox('Urgência UFT:', ['Baixa', 'Média', 'Alta'], index=i_urg)
 
             n_enviar_email = st.checkbox("Não enviar e-mail")
-            
+
             s = st.text_input("Senha:", value="", type="password")  # , type="password"
 
             botao = st.form_submit_button('Registrar')
@@ -432,14 +432,15 @@ if (pg == 'Edição individual'):
                             data_hoje = datetime.now(fuso_horario_sp)
                             data_reg = data_hoje.strftime('%d/%m/%Y')
                             sheet.update_acell('P' + str(celula.row), data_reg)
-                            
-                            if n_enviar_email:
+
+                            print('não enviar e-mail: ' + n_enviar_email)
+                            if n_enviar_email or (os_atual == ordem_servico[n] and status_atual == status_todos[indice] and obs_atual == obs_usuario[n]):
                                 sheet.update_acell('X' + str(celula.row),'sim')
-                            else:    
-                                sheet.update_acell('X' + str(celula.row), 'sim' if (status_reg == 'Cancelada' or (os_atual == ordem_servico[n] and status_atual == status_todos[indice] and obs_atual == obs_usuario[n])) else '')
-                        
+                            else:
+                                sheet.update_acell('X' + str(celula.row), 'sim' if (status_reg == 'Cancelada') else '')
+
                         st.success('Registro efetuado!')
-                        
+
                         with st.spinner('Registrando histórico..Aguarde!'):
                             registra_historico(selecionado, status_reg, obs_usr, obs_int, s)
                 else:
