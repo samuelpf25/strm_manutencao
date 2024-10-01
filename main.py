@@ -1,5 +1,5 @@
 # última edição 12/09/2024
-data_atualizacao = '12/09/2024 às 11:30h'
+data_atualizacao = '01/10/2024 às 18:20h'
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import streamlit as st
@@ -394,6 +394,11 @@ if (pg == 'Edição individual'):
         print(i_tipo)
 
         with st.form(key='my_form'):
+
+            os_atual = ordem_servico[n]
+            status_atual = status_todos[indice]
+            obs_atual = obs_usuario[n]
+
             tipo_reg = st.selectbox('Selecione o tipo de solicitação:', tipos[areas[i_area]], index=i_tipo)
             n_os = st.text_input('Nº de OS:', value=ordem_servico[n])
             status_reg = st.selectbox('Selecione o status:', status_todos, index=indice)
@@ -401,6 +406,8 @@ if (pg == 'Edição individual'):
             obs_int = st.text_area('Observação Interna:', value=obs_interna[n])
             urg_m = st.selectbox('Urgência UFT:', ['Baixa', 'Média', 'Alta'], index=i_urg)
 
+            n_enviar_email = st.checkbox("Não enviar e-mail")
+            
             s = st.text_input("Senha:", value="", type="password")  # , type="password"
 
             botao = st.form_submit_button('Registrar')
@@ -425,9 +432,14 @@ if (pg == 'Edição individual'):
                             data_hoje = datetime.now(fuso_horario_sp)
                             data_reg = data_hoje.strftime('%d/%m/%Y')
                             sheet.update_acell('P' + str(celula.row), data_reg)
-
-                            sheet.update_acell('X' + str(celula.row), 'sim' if status_reg == 'Cancelada' else '')
+                            
+                            if n_enviar_email:
+                                sheet.update_acell('X' + str(celula.row),'sim')
+                            else:    
+                                sheet.update_acell('X' + str(celula.row), 'sim' if (status_reg == 'Cancelada' or (os_atual == ordem_servico[n] and status_atual == status_todos[indice] and obs_atual == obs_usuario[n])) else '')
+                        
                         st.success('Registro efetuado!')
+                        
                         with st.spinner('Registrando histórico..Aguarde!'):
                             registra_historico(selecionado, status_reg, obs_usr, obs_int, s)
                 else:
