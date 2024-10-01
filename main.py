@@ -433,8 +433,9 @@ if (pg == 'Edição individual'):
                             data_reg = data_hoje.strftime('%d/%m/%Y')
                             sheet.update_acell('P' + str(celula.row), data_reg)
 
-                            print('não enviar e-mail: ' + n_enviar_email)
+                            print('não enviar e-mail: ' + str(n_enviar_email))
                             if n_enviar_email or (os_atual == ordem_servico[n] and status_atual == status_todos[indice] and obs_atual == obs_usuario[n]):
+                                print('NÃO ENVIAR E-MAIL')
                                 sheet.update_acell('X' + str(celula.row),'sim')
                             else:
                                 sheet.update_acell('X' + str(celula.row), 'sim' if (status_reg == 'Cancelada') else '')
