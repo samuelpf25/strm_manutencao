@@ -436,6 +436,8 @@ if (pg == 'Edição individual'):
                             st.markdown('não enviar e-mail: ' + str(n_enviar_email))
                             if n_enviar_email or (os_atual == ordem_servico[n] and status_atual == status_todos[indice] and obs_atual == obs_usuario[n]):
                                 st.markdown('NÃO ENVIAR E-MAIL')
+                                st.markdown('OS Atual: ' + os_atual + '<br> Os reg: ' + ordem_servico[n] + '<br> status atual: ' + status_atual + '<br> status reg: ' + status_todos[indice] + '<br> obs atual: '+ obs_atual + '<br> obs reg: ' + obs_usuario[n])
+                                
                                 sheet.update_acell('X' + str(celula.row),'sim')
                             else:
                                 sheet.update_acell('X' + str(celula.row), 'sim' if (status_reg == 'Cancelada') else '')
