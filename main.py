@@ -1,5 +1,5 @@
 # última edição 12/09/2024
-data_atualizacao = '01/10/2024 às 18:45h'
+data_atualizacao = '07/10/2024 às 13:35h'
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import streamlit as st
@@ -107,6 +107,7 @@ infor = '<p style="font-family:Courier; color:Green; font-size: 14px;">'
 alerta = '<p style="font-family:Courier; color:Red; font-size: 17px;">'
 titulo = '<p style="font-family:Courier; font-size: 20px;">'
 cabecalho='<div id="logo" class="span8 small"><a title="Universidade Federal do Tocantins"><img src="https://www.uft.edu.br/static/media/LogoHeader.48fc918c.svg" alt="Universidade Federal do Tocantins"><span class="portal-title-1"></span><h1 class="portal-title corto">Universidade Federal do Tocantins</h1><span class="portal-description">COINFRA - MANUTENÇÃO PREDIAL [Atualizado em '+data_atualizacao+']</span></a></div>'
+lista_predios=['AGROENERGIA','ALMOXARIFADO QUÍMICO','Ambulatório da UFT - 303 Norte','APIA (303 Norte)','ÁREA EXTERNA (DENTRO DO CAMPUS)','BALA 01','BALA 02','BIBLIOTECA','BLOCO 01','BLOCO 02','BLOCO 03','BLOCO 04','BLOCO A','BLOCO B','BLOCO C','BLOCO D (ANFITEATRO)','BLOCO E','BLOCO F','BLOCO G','BLOCO H','BLOCO i','BLOCO J (3P)','CABINE DE MEDIÇÃO','CASA DOS ESTUDANTES (302 Norte)','CASA DOS ESTUDANTES INDÍGENAS (607 NORTE)','CASA DOS ESTUDANTES INDÍGENAS (607 Norte)','CASA DOS MOTORISTAS','CEPIC/UBS UFT (Hall Biblioteca)','CIAMB','COINFRA','COMPLEXO CIVIL ANTIGO','COMPLEXO CIVIL NOVO','COMPLEXO JORNALISMO','COMPLEXO LAMADRID','COMPLEXO NUTRIÇÃO ANTIGO','COMPLEXO NUTRIÇÃO NOVO','COMPLEXO TEATRO','COMPLEXOS CIVIL NOVO','COMPLEXOS NUTRIÇÃO NOVO','CUICA','CUÍCA','DEPÓSITO (GALPÃO)','DEPÓSITO RURAIS','DESENVOLVIMENTO REGIONAL','DTE','ESTAÇÃO ELEVATÓRIA DE ESGOTO','FITOTERAPIA','GALPÃO DO ALMOXARIFADO','GEOAMBIENTAL E CIÊNCIAS DA SAÚDE','GUARITA','INOVATO','L1','L2','L3','L4','L5','L6','LAB 01','LAB 02','LAB 03','LAB 04','LAB. RESIDUOS E ORNITOLOGIA','LABORATORIO DE ENFERMAGEM (50)','LABORATÓRIO DE PRODUTOS NATURAIS (40)','LABTEC','LACIBS','LANCHONETE BLOCO A','LASPER','LEDBIO','MESTRADO SAÚDE','OUTRO (Especificar Sala/Local abaixo)','PISTA DE ATLETISMO','PRÉDIO ADMINISTRATIVO','RÁDIO UFT','REFEITÓRIO','REITORIA','RESTAURANTE UNIVERSITÁRIO','SIASS','UBS UFT (Hall Biblioteca)','UMA']
 
 # @st.cache
 # def carrega_todos(status,indice,os,obsemail,obsinterna):
@@ -299,8 +300,8 @@ if (pg == 'Edição individual'):
         # st.text('<p style="font-family:Courier; color:Blue; font-size: 20px;">Nome: '+ nome[n]+'</p>',unsafe_allow_html=True)
 
         st.markdown(padrao + '<b>Nome</b>: ' + str(nome_solicitante[n]) + '</p>', unsafe_allow_html=True)
-        st.markdown(padrao + '<b>Prédio</b>: ' + str(predio[n]) + '</p>', unsafe_allow_html=True)
-        st.markdown(padrao + '<b>Sala</b>: ' + sala[n] + '</p>', unsafe_allow_html=True)
+        #st.markdown(padrao + '<b>Prédio</b>: ' + str(predio[n]) + '</p>', unsafe_allow_html=True)
+        #st.markdown(padrao + '<b>Sala</b>: ' + sala[n] + '</p>', unsafe_allow_html=True)
         st.markdown(padrao + '<b>Data da Solicitação</b>: ' + str(data_hora[n]) + '</p>', unsafe_allow_html=True)
         st.markdown(padrao + '<b>Descrição</b>: ' + str(descricao_sucinta[n]) + '</p>', unsafe_allow_html=True)
         st.markdown(padrao + '<b>Telefone</b>: ' + telefone[n] + '</p>', unsafe_allow_html=True)
@@ -370,6 +371,14 @@ if (pg == 'Edição individual'):
                 break
             cont = cont + 1
 
+        cont = 0
+        i_predio = 0
+        for pr in lista_predios:
+            if pr == predio[n]:
+                i_predio = cont
+                break
+            cont = cont + 1
+
         area_reg = st.selectbox('Selecione a área:', areas, index=i_area)
 
         cont = 0
@@ -400,6 +409,8 @@ if (pg == 'Edição individual'):
             obs_atual = obs_usuario[n]
 
             tipo_reg = st.selectbox('Selecione o tipo de solicitação:', tipos[areas[i_area]], index=i_tipo)
+            pred = st.selectbox('Prédio:', lista_predios, index=i_predio)
+            sal = st.text_input('Sala:', value=sala[n])
             n_os = st.text_input('Nº de OS:', value=ordem_servico[n])
             status_reg = st.selectbox('Selecione o status:', status_todos, index=indice)
             obs_usr = st.text_area('Observação para o Usuário:', value=obs_usuario[n])
