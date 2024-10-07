@@ -432,6 +432,8 @@ if (pg == 'Edição individual'):
                         with st.spinner('Registrando dados...Aguarde!'):
                             st.markdown(infor + '<b>Registro efetuado!</b></p>', unsafe_allow_html=True)
 
+                            sheet.update_acell('G' + str(celula.row), pred)
+                            sheet.update_acell('H' + str(celula.row), sal)
                             sheet.update_acell('K' + str(celula.row), n_os)
                             sheet.update_acell('L' + str(celula.row), urg_m)
                             sheet.update_acell('M' + str(celula.row), status_reg)
