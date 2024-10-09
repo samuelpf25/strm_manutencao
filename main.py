@@ -1,5 +1,5 @@
 # última edição 12/09/2024
-data_atualizacao = '07/10/2024 às 13:35h'
+data_atualizacao = '09/10/2024 às 10:05h'
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import streamlit as st
@@ -426,8 +426,9 @@ if (pg == 'Edição individual'):
         if ((botao == True) and (s in senhas)):
             if (sheet.cell(celula.row, 21).value == id_uft[n] and sheet.cell(celula.row, 1).value != ''):
                 if (status_reg!=''):
-                    if (status_reg=='OS Aberta' and n_os==''):
-                        st.error('Digite um número para a OS...')
+                    if (status_reg in ['OS Aberta', 'Pendente de Material', 'Atendida',
+                'Material Solicitado', 'Material Disponível', 'Cancelada'] and n_os==''):
+                        st.error('Digite um número para a OS...Para este Status é necessário um número!')
                     else:
                         with st.spinner('Registrando dados...Aguarde!'):
                             st.markdown(infor + '<b>Registro efetuado!</b></p>', unsafe_allow_html=True)
