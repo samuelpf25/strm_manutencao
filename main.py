@@ -213,6 +213,8 @@ status = ['', 'Todas Ativas', 'OS Aberta', 'Pendente de Material', 'Pendente Sol
           'Atendida', 'Material Solicitado', 'Material Disponível', 'Indeferido','Cancelada']
 status_todos = ['', 'OS Aberta', 'Pendente de Material', 'Pendente Solicitante', 'Pendente Outros', 'Atendida',
                 'Material Solicitado', 'Material Disponível', 'Indeferido','Cancelada']
+status_ativas = ['', 'OS Aberta', 'Pendente de Material', 'Pendente Solicitante', 'Pendente Outros', 'Material Solicitado', 'Material Disponível']
+
 if (pg == 'Edição individual'):
     # PÁGINA EDIÇÃO INDIVIDUAL ******************************************************************************************
     st.markdown(cabecalho, unsafe_allow_html=True)
@@ -224,14 +226,14 @@ if (pg == 'Edição individual'):
     #     unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
-    filtrando = col1.multiselect('Selecione o Status para Filtrar', status)
+    filtrando = col1.multiselect('Selecione o Status para Filtrar', status, ['Todas Ativas'])
     # print(filtrando)
     filtra_os = col2.text_input('Filtrar OS/Obs interna:', value='')
     # data_hora	nome_solicitante	area_manutencao	tipo_solicitacao	descricao_sucinta	predio	sala	data_solicitacao		telefone	urg_uft	status_uft	data_status	alerta_coluna	pontos
 
     for dic in df.index:
         if (filtrando == ['Todas Ativas']):
-            filtrando = status_todos
+            filtrando = status_ativas
         if filtra_os != '':
             if df['status_uft'][dic] in filtrando and df['area_manutencao'][dic] != '' and (str(df['ordem_servico'][dic]) == str(filtra_os) or (str(filtra_os) in df['obs_interna'][dic])):
                 # print(df['Código da UFT'][dic])
