@@ -1,5 +1,5 @@
 # última edição 12/09/2024
-data_atualizacao = '09/10/2024 às 10:05h'
+data_atualizacao = '09/10/2024 às 15:00h'
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import streamlit as st
@@ -226,7 +226,7 @@ if (pg == 'Edição individual'):
     #     unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
-    filtrando = col1.multiselect('Selecione o Status para Filtrar', status, ['Todas Ativas'])
+    filtrando = col1.multiselect('Selecione o Status para Filtrar', status, [''])
     # print(filtrando)
     filtra_os = col2.text_input('Filtrar OS/Obs interna:', value='')
     # data_hora	nome_solicitante	area_manutencao	tipo_solicitacao	descricao_sucinta	predio	sala	data_solicitacao		telefone	urg_uft	status_uft	data_status	alerta_coluna	pontos
