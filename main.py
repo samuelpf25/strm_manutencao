@@ -1,5 +1,5 @@
 # última edição 12/09/2024
-data_atualizacao = '09/10/2024 às 15:00h'
+data_atualizacao = '11/10/2024 às 14:10h'
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import streamlit as st
@@ -288,6 +288,7 @@ if (pg == 'Edição individual'):
             alerta + f'<Strong><i>Foram encontradas {len(data_hora)} Ordens de Serviço com este mesmo argumento, selecione abaixo a solicitação correspondente:</i></Strong></p>',
             unsafe_allow_html=True)
     selecionado = st.selectbox('Nº da UFT:', id_uft)
+    
     try:
         st.markdown(
             alerta + f'<Strong><i>Foram encontradas {len(id_uft)} solicitações com este filtro.</i></Strong>Selecionada atual é '+selecionado+'</p>',
@@ -823,7 +824,7 @@ elif pg == 'Consulta':
     import streamlit as st
 
     # Converte todas as colunas para strings para evitar erros de conversão
-    titulos = ['data_hora', 'nome_solicitante', 'area_manutencao', 'tipo_solicitacao', 'descricao_sucinta', 'predio',
+    titulos = ['data_hora','data_status', 'nome_solicitante', 'area_manutencao', 'tipo_solicitacao', 'descricao_sucinta', 'predio',
                'sala', 'data_solicitacao',  'ordem_servico', 'status_uft']
 
     dados = df[titulos].astype(str).fillna('')  # Garante que todos os dados sejam strings
