@@ -1,5 +1,5 @@
 # última edição 12/09/2024
-data_atualizacao = '11/10/2024 às 14:10h'
+data_atualizacao = '29/11/2024 às 12:25h'
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import streamlit as st
@@ -460,9 +460,11 @@ if (pg == 'Edição individual'):
                                 sheet.update_acell('X' + str(celula.row), 'sim' if (status_reg == 'Cancelada') else '')
 
                         st.success('Registro efetuado!')
-
-                        with st.spinner('Registrando histórico..Aguarde!'):
-                            registra_historico(selecionado, status_reg, obs_usr, obs_int, s)
+                        if (os_atual != n_os or status_atual != status_reg or obs_atual != obs_usr):
+                            # st.markdown('NÃO ENVIAR E-MAIL')
+                            # st.markdown('OS Atual: ' + os_atual + '<br> Os reg: ' + ordem_servico[n] + '<br> status atual: ' + status_atual + '<br> status reg: ' + status_todos[indice] + '<br> obs atual: '+ obs_atual + '<br> obs reg: ' + obs_usuario[n])
+                            with st.spinner('Registrando histórico..Aguarde!'):
+                                registra_historico(selecionado, status_reg, obs_usr, obs_int, s)
                 else:
                     st.error('Selecione um Status para a OS!')
             else:
