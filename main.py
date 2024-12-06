@@ -885,11 +885,11 @@ elif pg == 'Consulta':
 
         try:
             st.markdown(alerta + f'<Strong><i>Número de OS com o filtro correspondente[f]: {len(dad[dad['area_manutencao'].str.strip() != ''])}.</i></Strong></p>',unsafe_allow_html=True)
-            df_xlsx = to_excel(dad_filtrado)
-            st.download_button(label='📥 Baixar Resultado do Filtro em Excel', data=df_xlsx,file_name='filtro_planilha.xlsx')
+
         except:
             pass
-
+        df_xlsx = to_excel(dad_filtrado)
+        st.download_button(label='📥 Baixar Resultado do Filtro em Excel', data=df_xlsx,file_name='filtro_planilha.xlsx')
 
         # dados_graf=pd.DataFrame(dados[filtrar],columns=[coluna1,coluna2])
         # fig = px.bar(dados_graf, x=coluna1, y=coluna2, barmode='group', height=400)
