@@ -189,7 +189,7 @@ def next_available_row(worksheet):
     return str(len(str_list) + 1)
 
 
-def to_excel(df):
+def cel(df):
     output = BytesIO()
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
     df.to_excel(writer, index=False, sheet_name='OS')
@@ -885,10 +885,10 @@ elif pg == 'Consulta':
         df_xlsx = to_excel(dad_filtrado)
         st.download_button(label='📥 Baixar Resultado do Filtro em Excel', data=df_xlsx,file_name='filtro_planilha.xlsx')
     try:
-        #st.markdown(
-        #    alerta + f'<Strong><i>Número de OS com o filtro correspondente: {len(dad[dad['area_manutencao'].str.strip() != ''])}.</i></Strong></p>',
-        #    unsafe_allow_html=True)
-
+        st.markdown(
+            alerta + f'<Strong><i>Número de OS com o filtro correspondente: {len(dad[dad['area_manutencao'].str.strip() != ''])}.</i></Strong></p>',
+            unsafe_allow_html=True)
+        
     except:
         pass
 
