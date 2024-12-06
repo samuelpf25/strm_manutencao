@@ -822,9 +822,6 @@ elif pg == 'Consulta':
     st.markdown(cabecalho, unsafe_allow_html=True)
     st.subheader(pg)
 
-    import pandas as pd
-    import streamlit as st
-
     # Converte todas as colunas para strings para evitar erros de conversão
     titulos = ['data_hora','data_status', 'nome_solicitante', 'area_manutencao', 'tipo_solicitacao', 'descricao_sucinta', 'predio',
                'sala', 'data_solicitacao',  'ordem_servico', 'status_uft']
@@ -885,14 +882,14 @@ elif pg == 'Consulta':
         dad = dad_filtrado
         # Exibe o DataFrame filtrado
         st.dataframe(dad_filtrado)
-        
+                df_xlsx = to_excel(dad_filtrado)
+        st.download_button(label='📥 Baixar Resultado do Filtro em Excel', data=df_xlsx,
+                           file_name='filtro_planilha.xlsx')
     try:
         #st.markdown(
         #    alerta + f'<Strong><i>Número de OS com o filtro correspondente: {len(dad[dad['area_manutencao'].str.strip() != ''])}.</i></Strong></p>',
         #    unsafe_allow_html=True)
-        df_xlsx = to_excel(dad_filtrado)
-        st.download_button(label='📥 Baixar Resultado do Filtro em Excel', data=df_xlsx,
-                           file_name='filtro_planilha.xlsx')
+
     except:
         pass
 
