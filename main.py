@@ -882,15 +882,13 @@ elif pg == 'Consulta':
         dad = dad_filtrado
         # Exibe o DataFrame filtrado
         st.dataframe(dad_filtrado)
-        df_xlsx = to_excel(dad_filtrado)
-        st.download_button(label='📥 Baixar Resultado do Filtro em Excel', data=df_xlsx,file_name='filtro_planilha.xlsx')
-    try:
-        st.markdown(
-            alerta + f'<Strong><i>Número de OS com o filtro correspondente: {len(dad[dad['area_manutencao'].str.strip() != ''])}.</i></Strong></p>',
-            unsafe_allow_html=True)
-        
-    except:
-        pass
+
+        try:
+            st.markdown(alerta + f'<Strong><i>Número de OS com o filtro correspondente: {len(dad[dad['area_manutencao'].str.strip() != ''])}.</i></Strong></p>',unsafe_allow_html=True)
+            df_xlsx = to_excel(dad_filtrado)
+            st.download_button(label='📥 Baixar Resultado do Filtro em Excel', data=df_xlsx,file_name='filtro_planilha.xlsx')
+        except:
+            pass
 
 
         # dados_graf=pd.DataFrame(dados[filtrar],columns=[coluna1,coluna2])
@@ -903,9 +901,16 @@ elif pg == 'Consulta':
     else:
         try:
             st.dataframe(df[titulos])
+            dad_filtrado = df[titulos]
         except:
             pass
-
+        
+        try:
+            st.markdown(alerta + f'<Strong><i>Número de OS com o filtro correspondente: {len(dad[dad['area_manutencao'].str.strip() != ''])}.</i></Strong></p>',unsafe_allow_html=True)
+            df_xlsx = to_excel(dad_filtrado)
+            st.download_button(label='📥 Baixar Resultado do Filtro em Excel', data=df_xlsx,file_name='filtro_planilha.xlsx')
+        except:
+            pass
     try:
         df2 = dad
 
