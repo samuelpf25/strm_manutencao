@@ -189,10 +189,10 @@ def next_available_row(worksheet):
     return str(len(str_list) + 1)
 
 
-def cel(df):
+def to_excel(df):
     output = BytesIO()
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
-    df.to_excel(writer, index=False, sheet_name='OS')
+    df.(writer, index=False, sheet_name='OS')
     workbook = writer.book
     worksheet = writer.sheets['OS']
     format1 = workbook.add_format({'num_format': '0.00'})
