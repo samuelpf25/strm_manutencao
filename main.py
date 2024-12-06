@@ -884,7 +884,7 @@ elif pg == 'Consulta':
         st.dataframe(dad_filtrado)
 
         try:
-            st.markdown(alerta + f'<Strong><i>Número de OS com o filtro correspondente: {len(dad[dad['area_manutencao'].str.strip() != ''])}.</i></Strong></p>',unsafe_allow_html=True)
+            st.markdown(alerta + f'<Strong><i>Número de OS com o filtro correspondente[f]: {len(dad[dad['area_manutencao'].str.strip() != ''])}.</i></Strong></p>',unsafe_allow_html=True)
             df_xlsx = to_excel(dad_filtrado)
             st.download_button(label='📥 Baixar Resultado do Filtro em Excel', data=df_xlsx,file_name='filtro_planilha.xlsx')
         except:
