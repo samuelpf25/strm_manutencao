@@ -3,3 +3,4 @@ oauth2client
 streamlit
 pytz
 matplotlib
+xlsxwriter
