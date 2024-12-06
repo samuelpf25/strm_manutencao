@@ -1,5 +1,5 @@
 # última edição 12/09/2024
-data_atualizacao = '29/11/2024 às 12:25h'
+data_atualizacao = '06/12/2024 às 11:10h'
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import streamlit as st
