@@ -192,7 +192,7 @@ def next_available_row(worksheet):
 def to_excel(df):
     output = BytesIO()
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
-    df.(writer, index=False, sheet_name='OS')
+    df.to_excel(writer, index=False, sheet_name='OS')
     workbook = writer.book
     worksheet = writer.sheets['OS']
     format1 = workbook.add_format({'num_format': '0.00'})
